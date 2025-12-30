@@ -1,7 +1,26 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.plugin)
+}
+
+fun getLocalProperty(key: String): String? {
+
+    val envValue = System.getenv(key)
+    if (envValue != null) return envValue
+
+    val properties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        properties.load(localPropertiesFile.inputStream())
+        return properties.getProperty(key)
+    }
+    return null
 }
 
 android {
@@ -12,6 +31,11 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
+
+        val f1BaseUrl = getLocalProperty("F1_BASE_URL")
+            ?: throw GradleException("F1_BASE_URL not found in local.properties")
+
+        buildConfigField("String", "F1_BASE_URL", "\"$f1BaseUrl\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -33,13 +57,14 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.bundles.network.deps)
+
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
 }
