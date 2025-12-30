@@ -19,6 +19,7 @@ import javax.inject.Singleton
 object NetworkModule {
 
     private const val BASE_URL = BuildConfig.F1_BASE_URL
+    private const val TIMEOUT_SECONDS = 30L
 
     @Provides
     @Singleton
@@ -34,8 +35,8 @@ object NetworkModule {
         .addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         })
-        .connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
+        .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
         .build()
 
     @Provides
