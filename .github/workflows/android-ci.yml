@@ -10,6 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      F1_BASE_URL: ${{ secrets.F1_BASE_URL }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
