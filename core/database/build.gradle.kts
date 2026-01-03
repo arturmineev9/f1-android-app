@@ -38,7 +38,12 @@ android {
 }
 
 dependencies {
-    implementation(libs.bundles.room.deps)
+    implementation(libs.room)
+    implementation(libs.room.ktx)
+    ksp(libs.room.ksp)
+
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)

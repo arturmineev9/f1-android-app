@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.firebase.performace)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -14,6 +15,13 @@ android {
     compileSdk {
         version = release(libs.versions.compileSdk.get().toInt())
     }
+
+    configurations.all {
+        resolutionStrategy {
+            exclude(group = "com.intellij", module = "annotations")
+        }
+    }
+
 
     defaultConfig {
         applicationId = "ru.itis.f1app"
@@ -41,9 +49,13 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        compose = true
+    }
 }
 
 dependencies {
+    implementation(project(":feature:auth:impl"))
     implementation(project(":umbrella"))
 
     implementation(libs.androidx.core.ktx)
@@ -59,4 +71,8 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.performance)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.bundles.voyager.deps)
+    implementation(libs.androidx.activity.compose)
 }
