@@ -1,0 +1,7 @@
+package ru.itis.f1app.feature.auth.api.usecases
+
+import ru.itis.f1app.core.common.utils.Result
+
+interface LoginUseCase {
+    suspend operator fun invoke(username: String, password: String): Result<Unit>
+}
