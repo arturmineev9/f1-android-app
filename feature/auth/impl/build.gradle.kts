@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.plugin)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.detekt)
 }
 
@@ -36,10 +39,19 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    implementation(project(":feature:auth:api"))
+    implementation(project(":core:database"))
+    implementation(project(":core:common"))
+
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
+    implementation(libs.bundles.orbit.deps)
+    implementation(libs.bundles.voyager.deps)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui.tooling.preview)
+    debugImplementation(libs.androidx.ui.tooling)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
