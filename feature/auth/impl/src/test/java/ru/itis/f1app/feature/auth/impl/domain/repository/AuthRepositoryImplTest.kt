@@ -1,6 +1,9 @@
 package ru.itis.f1app.feature.auth.impl.domain.repository
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
+import io.mockk.slot
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -9,7 +12,7 @@ import ru.itis.f1app.core.common.utils.Result
 import ru.itis.f1app.core.common.utils.SecurityUtils
 import ru.itis.f1app.core.database.dao.UserDao
 import ru.itis.f1app.core.database.entity.UserEntity
-import ru.itis.f1app.feature.auth.api.exception.AuthException
+import ru.itis.f1app.feature.auth.api.exception.AuthExceptions
 
 class AuthRepositoryImplTest {
 
@@ -24,7 +27,7 @@ class AuthRepositoryImplTest {
         val result = repository.register("vasya", "123456")
 
         assertTrue(result is Result.Error)
-        assertTrue((result as Result.Error).exception is AuthException.UserAlreadyExists)
+        assertTrue((result as Result.Error).exception is AuthExceptions.UserAlreadyExists)
     }
 
     @Test
@@ -54,7 +57,7 @@ class AuthRepositoryImplTest {
         val result = repository.login("vasya", "wrong")
 
         assertTrue(result is Result.Error)
-        assertTrue((result as Result.Error).exception is AuthException.InvalidCredentials)
+        assertTrue((result as Result.Error).exception is AuthExceptions.InvalidCredentials)
     }
 
     @Test

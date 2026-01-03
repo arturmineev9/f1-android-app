@@ -7,7 +7,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import ru.itis.f1app.core.common.utils.Result
-import ru.itis.f1app.feature.auth.api.exception.AuthException
+import ru.itis.f1app.feature.auth.api.exception.AuthExceptions
 import ru.itis.f1app.feature.auth.api.repository.AuthRepository
 
 class LoginUseCaseTest {
@@ -19,14 +19,14 @@ class LoginUseCaseTest {
     fun `invoke should return EmptyFields error when username is blank`() = runTest {
         val result = useCase("", "pass")
         assertTrue(result is Result.Error)
-        assertTrue((result as Result.Error).exception is AuthException.EmptyFields)
+        assertTrue((result as Result.Error).exception is AuthExceptions.EmptyFields)
     }
 
     @Test
     fun `invoke should return EmptyFields error when password is blank`() = runTest {
         val result = useCase("user", "")
         assertTrue(result is Result.Error)
-        assertTrue((result as Result.Error).exception is AuthException.EmptyFields)
+        assertTrue((result as Result.Error).exception is AuthExceptions.EmptyFields)
     }
 
     @Test

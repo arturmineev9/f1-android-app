@@ -5,8 +5,9 @@ import ru.itis.f1app.core.common.utils.Result
 import ru.itis.f1app.core.common.utils.SecurityUtils
 import ru.itis.f1app.core.database.dao.UserDao
 import ru.itis.f1app.core.database.entity.UserEntity
-import ru.itis.f1app.feature.auth.api.exception.AuthException
+import ru.itis.f1app.feature.auth.api.exception.AuthExceptions
 import ru.itis.f1app.feature.auth.api.repository.AuthRepository
+import java.io.IOException
 import java.util.UUID
 import javax.inject.Inject
 
@@ -19,7 +20,7 @@ class AuthRepositoryImpl @Inject constructor(
         return try {
             val existing = userDao.getUserByUsername(username)
             if (existing != null) {
-                return Result.Error(AuthException.UserAlreadyExists())
+                return Result.Error(AuthExceptions.UserAlreadyExists())
             }
 
             val passwordHash = SecurityUtils.hashPassword(password)
@@ -29,7 +30,11 @@ class AuthRepositoryImpl @Inject constructor(
             tokenStorage.saveToken(fakeToken)
 
             Result.Success(Unit)
-        } catch (e: Exception) {
+        } catch (e: IOException) {
+            Result.Error(e)
+        } catch (e: SecurityException) {
+            Result.Error(e)
+        } catch (e: IllegalStateException) {
             Result.Error(e)
         }
     }
@@ -44,9 +49,13 @@ class AuthRepositoryImpl @Inject constructor(
                 tokenStorage.saveToken(fakeToken)
                 Result.Success(Unit)
             } else {
-                return Result.Error(AuthException.InvalidCredentials())
+                return Result.Error(AuthExceptions.InvalidCredentials())
             }
-        } catch (e: Exception) {
+        } catch (e: IOException) {
+            Result.Error(e)
+        } catch (e: SecurityException) {
+            Result.Error(e)
+        } catch (e: IllegalStateException) {
             Result.Error(e)
         }
     }

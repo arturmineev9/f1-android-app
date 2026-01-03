@@ -19,10 +19,10 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class TokenStorage @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-    private val ACCESS_TOKEN_KEY = stringPreferencesKey("access_token")
+    private val accessTokenKey = stringPreferencesKey("access_token")
 
     val accessTokenFlow: Flow<String?> = context.dataStore.data
-        .map { prefs -> prefs[ACCESS_TOKEN_KEY] }
+        .map { prefs -> prefs[accessTokenKey] }
 
     suspend fun getAccessToken(): String? {
         return accessTokenFlow.firstOrNull()
@@ -30,13 +30,13 @@ class TokenStorage @Inject constructor(
 
     suspend fun saveToken(token: String) {
         context.dataStore.edit { prefs ->
-            prefs[ACCESS_TOKEN_KEY] = token
+            prefs[accessTokenKey] = token
         }
     }
 
     suspend fun clearToken() {
         context.dataStore.edit { prefs ->
-            prefs.remove(ACCESS_TOKEN_KEY)
+            prefs.remove(accessTokenKey)
         }
     }
 }

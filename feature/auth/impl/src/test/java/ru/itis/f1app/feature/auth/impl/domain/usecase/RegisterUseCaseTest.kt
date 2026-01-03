@@ -7,7 +7,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import ru.itis.f1app.core.common.utils.Result
-import ru.itis.f1app.feature.auth.api.exception.AuthException
+import ru.itis.f1app.feature.auth.api.exception.AuthExceptions
 import ru.itis.f1app.feature.auth.api.repository.AuthRepository
 
 class RegisterUseCaseTest {
@@ -19,7 +19,7 @@ class RegisterUseCaseTest {
     fun `invoke should return EmptyUsername error when username is blank`() = runTest {
         val result = useCase("  ", "password123")
         assertTrue(result is Result.Error)
-        assertTrue((result as Result.Error).exception is AuthException.EmptyUsername)
+        assertTrue((result as Result.Error).exception is AuthExceptions.EmptyUsername)
         coVerify(exactly = 0) { repository.register(any(), any()) }
     }
 
@@ -27,7 +27,7 @@ class RegisterUseCaseTest {
     fun `invoke should return ShortPassword error when password is short`() = runTest {
         val result = useCase("user", "12345") // 5 chars
         assertTrue(result is Result.Error)
-        assertTrue((result as Result.Error).exception is AuthException.ShortPassword)
+        assertTrue((result as Result.Error).exception is AuthExceptions.ShortPassword)
         coVerify(exactly = 0) { repository.register(any(), any()) }
     }
 
