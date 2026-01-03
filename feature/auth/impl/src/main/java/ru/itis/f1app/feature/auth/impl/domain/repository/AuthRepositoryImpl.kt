@@ -1,16 +1,18 @@
 package ru.itis.f1app.feature.auth.impl.domain.repository
 
+import ru.itis.f1app.core.common.token.TokenStorage
 import ru.itis.f1app.core.common.utils.Result
+import ru.itis.f1app.core.common.utils.SecurityUtils
 import ru.itis.f1app.core.database.dao.UserDao
 import ru.itis.f1app.core.database.entity.UserEntity
 import ru.itis.f1app.feature.auth.api.repositories.AuthRepository
+import java.util.UUID
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val userDao: UserDao
+    private val userDao: UserDao,
+    private val tokenStorage: TokenStorage
 ) : AuthRepository {
-    
-    private var currentUser: String? = null
 
     override suspend fun register(username: String, password: String): Result<Unit> {
         return try {
@@ -18,8 +20,14 @@ class AuthRepositoryImpl @Inject constructor(
             if (existing != null) {
                 return Result.Error(Exception("User already exists"))
             }
-            userDao.insertUser(UserEntity(username = username, passwordHash = password))
-            currentUser = username
+
+            val passwordHash = SecurityUtils.hashPassword(password)
+
+            userDao.insertUser(UserEntity(username = username, passwordHash = passwordHash))
+
+            val fakeToken = generateFakeJwt()
+            tokenStorage.saveToken(fakeToken)
+
             Result.Success(Unit)
         } catch (e: Exception) {
             Result.Error(e)
@@ -29,8 +37,12 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun login(username: String, password: String): Result<Unit> {
         return try {
             val user = userDao.getUserByUsername(username)
-            if (user != null && user.passwordHash == password) {
-                currentUser = username
+
+            val inputHash = SecurityUtils.hashPassword(password)
+
+            if (user != null && user.passwordHash == inputHash) {
+                val fakeToken = generateFakeJwt()
+                tokenStorage.saveToken(fakeToken)
                 Result.Success(Unit)
             } else {
                 Result.Error(Exception("Invalid credentials"))
@@ -40,9 +52,11 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun logout() {
-        currentUser = null
+    private fun generateFakeJwt(): String {
+        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${UUID.randomUUID()}.fakeSignature"
     }
 
-    override suspend fun getCurrentUser(): String? = currentUser
+    override suspend fun logout() {
+        tokenStorage.clearToken()
+    }
 }

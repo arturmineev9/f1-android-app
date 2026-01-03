@@ -63,6 +63,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common"))
+
     implementation(libs.bundles.network.deps)
 
     implementation(libs.hilt)
