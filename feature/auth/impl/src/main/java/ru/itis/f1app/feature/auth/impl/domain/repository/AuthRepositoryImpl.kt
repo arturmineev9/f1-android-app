@@ -5,7 +5,8 @@ import ru.itis.f1app.core.common.utils.Result
 import ru.itis.f1app.core.common.utils.SecurityUtils
 import ru.itis.f1app.core.database.dao.UserDao
 import ru.itis.f1app.core.database.entity.UserEntity
-import ru.itis.f1app.feature.auth.api.repositories.AuthRepository
+import ru.itis.f1app.feature.auth.api.exception.AuthException
+import ru.itis.f1app.feature.auth.api.repository.AuthRepository
 import java.util.UUID
 import javax.inject.Inject
 
@@ -18,11 +19,10 @@ class AuthRepositoryImpl @Inject constructor(
         return try {
             val existing = userDao.getUserByUsername(username)
             if (existing != null) {
-                return Result.Error(Exception("User already exists"))
+                return Result.Error(AuthException.UserAlreadyExists())
             }
 
             val passwordHash = SecurityUtils.hashPassword(password)
-
             userDao.insertUser(UserEntity(username = username, passwordHash = passwordHash))
 
             val fakeToken = generateFakeJwt()
@@ -37,7 +37,6 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun login(username: String, password: String): Result<Unit> {
         return try {
             val user = userDao.getUserByUsername(username)
-
             val inputHash = SecurityUtils.hashPassword(password)
 
             if (user != null && user.passwordHash == inputHash) {
@@ -45,7 +44,7 @@ class AuthRepositoryImpl @Inject constructor(
                 tokenStorage.saveToken(fakeToken)
                 Result.Success(Unit)
             } else {
-                Result.Error(Exception("Invalid credentials"))
+                return Result.Error(AuthException.InvalidCredentials())
             }
         } catch (e: Exception) {
             Result.Error(e)

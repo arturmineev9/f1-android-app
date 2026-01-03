@@ -1,4 +1,4 @@
-package ru.itis.f1app.feature.auth.api.repositories
+package ru.itis.f1app.feature.auth.api.repository
 
 import ru.itis.f1app.core.common.utils.Result
 

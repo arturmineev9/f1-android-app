@@ -1,8 +1,9 @@
-package ru.itis.f1app.feature.auth.impl.domain.usecases
+package ru.itis.f1app.feature.auth.impl.domain.usecase
 
 import ru.itis.f1app.core.common.utils.Result
-import ru.itis.f1app.feature.auth.api.repositories.AuthRepository
-import ru.itis.f1app.feature.auth.api.usecases.LoginUseCase
+import ru.itis.f1app.feature.auth.api.exception.AuthException
+import ru.itis.f1app.feature.auth.api.repository.AuthRepository
+import ru.itis.f1app.feature.auth.api.usecase.LoginUseCase
 import javax.inject.Inject
 
 class LoginUseCaseImpl @Inject constructor(
@@ -11,7 +12,7 @@ class LoginUseCaseImpl @Inject constructor(
 
     override suspend operator fun invoke(username: String, password: String): Result<Unit> {
         if (username.isBlank() || password.isBlank()) {
-            return Result.Error(IllegalArgumentException("Fields cannot be empty"))
+            return Result.Error(AuthException.EmptyFields())
         }
         return repository.login(username, password)
     }
