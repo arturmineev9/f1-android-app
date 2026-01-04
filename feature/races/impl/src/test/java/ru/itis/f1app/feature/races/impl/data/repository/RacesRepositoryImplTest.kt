@@ -12,6 +12,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import ru.itis.f1app.core.database.dao.RacesDao
 import ru.itis.f1app.core.database.entity.RaceEntity
+import ru.itis.f1app.feature.races.api.domain.exception.RacesExceptions
 import ru.itis.f1app.feature.races.api.domain.model.Race
 import ru.itis.f1app.feature.races.impl.data.mapper.RaceMapper
 import ru.itis.f1app.feature.races.impl.data.network.api.RacesApi
@@ -61,9 +62,9 @@ class RacesRepositoryImplTest {
         coVerify(exactly = 1) { dao.insertAll(entityList) }
     }
 
-    @Test(expected = RuntimeException::class)
+    @Test(expected = RacesExceptions.Unknown::class)
     fun `refreshRaces throws exception when api fails`() = runTest {
-        val year = 2024
+        val year = 2025
         coEvery { api.getRacesByYear(year) } throws RuntimeException("Network Error")
 
         repository.refreshRaces(year)
