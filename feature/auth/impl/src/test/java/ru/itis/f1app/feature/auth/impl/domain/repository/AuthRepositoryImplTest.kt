@@ -22,9 +22,9 @@ class AuthRepositoryImplTest {
 
     @Test
     fun `register should return UserAlreadyExists if user is found`() = runTest {
-        coEvery { userDao.getUserByUsername("vasya") } returns UserEntity(username = "vasya", passwordHash = "hash")
+        coEvery { userDao.getUserByUsername("artur") } returns UserEntity(username = "artur", passwordHash = "hash")
 
-        val result = repository.register("vasya", "123456")
+        val result = repository.register("artur", "123456")
 
         assertTrue(result is Result.Error)
         assertTrue((result as Result.Error).exception is AuthExceptions.UserAlreadyExists)
@@ -32,12 +32,12 @@ class AuthRepositoryImplTest {
 
     @Test
     fun `register should hash password and save token on success`() = runTest {
-        coEvery { userDao.getUserByUsername("vasya") } returns null
+        coEvery { userDao.getUserByUsername("artur") } returns null
         coEvery { userDao.insertUser(any()) } returns 1L
 
         val expectedHash = SecurityUtils.hashPassword("password")
 
-        val result = repository.register("vasya", "password")
+        val result = repository.register("artur", "password")
 
         assertTrue(result is Result.Success)
 
@@ -51,10 +51,10 @@ class AuthRepositoryImplTest {
     @Test
     fun `login should return InvalidCredentials if password hash does not match`() = runTest {
         val trueHash = SecurityUtils.hashPassword("correct")
-        val user = UserEntity(username = "vasya", passwordHash = trueHash)
-        coEvery { userDao.getUserByUsername("vasya") } returns user
+        val user = UserEntity(username = "artur", passwordHash = trueHash)
+        coEvery { userDao.getUserByUsername("artur") } returns user
 
-        val result = repository.login("vasya", "wrong")
+        val result = repository.login("artur", "wrong")
 
         assertTrue(result is Result.Error)
         assertTrue((result as Result.Error).exception is AuthExceptions.InvalidCredentials)
@@ -63,10 +63,10 @@ class AuthRepositoryImplTest {
     @Test
     fun `login should save token on success`() = runTest {
         val trueHash = SecurityUtils.hashPassword("correct")
-        val user = UserEntity(username = "vasya", passwordHash = trueHash)
-        coEvery { userDao.getUserByUsername("vasya") } returns user
+        val user = UserEntity(username = "artur", passwordHash = trueHash)
+        coEvery { userDao.getUserByUsername("artur") } returns user
 
-        val result = repository.login("vasya", "correct")
+        val result = repository.login("artur", "correct")
 
         assertTrue(result is Result.Success)
         coVerify { tokenStorage.saveToken(any()) }

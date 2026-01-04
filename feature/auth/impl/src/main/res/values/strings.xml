@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_title">Вход в PitWall</string>
+    <string name="login_button">Войти</string>
+    <string name="no_account">Нет аккаунта? Регистрация</string>
+
+    <string name="register_title">Создать аккаунт</string>
+    <string name="register_button">Зарегистрироваться</string>
+    <string name="have_account">Есть аккаунт? Войти</string>
+
+    <string name="label_username">Имя пользователя</string>
+    <string name="label_password">Пароль</string>
+    <string name="label_password_min">Пароль (мин. 6 символов)</string>
+
+    <string name="error_empty_fields">Заполните все поля</string>
+    <string name="error_invalid_credentials">Неверный логин или пароль</string>
+    <string name="error_empty_username">Имя пользователя не может быть пустым</string>
+    <string name="error_short_password">Пароль слишком короткий</string>
+    <string name="error_user_exists">Пользователь уже существует</string>
+    <string name="error_unknown">Произошла ошибка</string>
+
+    <string name="msg_login_success">Успешный вход!</string>
+    <string name="msg_register_success">Регистрация успешна!</string>
+</resources>
