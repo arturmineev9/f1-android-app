@@ -3,6 +3,7 @@ package ru.itis.f1app.feature.races.impl.data.repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ru.itis.f1app.core.database.dao.RacesDao
+import ru.itis.f1app.feature.races.api.domain.exception.RacesExceptions
 import ru.itis.f1app.feature.races.api.domain.model.Race
 import ru.itis.f1app.feature.races.api.domain.repository.RacesRepository
 import ru.itis.f1app.feature.races.impl.data.mapper.RaceMapper
@@ -24,10 +25,18 @@ class RacesRepositoryImpl @Inject constructor(
     override suspend fun refreshRaces(year: Int) {
         try {
             val response = api.getRacesByYear(year)
+            if (response.races.isEmpty()) {
+                throw RacesExceptions.NoDataAvailable()
+            }
             val entities = mapper.mapDtoListToEntityList(response.races, year)
             dao.insertAll(entities)
         } catch (e: Exception) {
-            throw e
+            throw when (e) {
+                is java.io.IOException -> RacesExceptions.NetworkConnection(e)
+                is retrofit2.HttpException -> RacesExceptions.ServerError(e.code(), e.message())
+                is RacesExceptions -> e
+                else -> RacesExceptions.Unknown(e)
+            }
         }
     }
 }
