@@ -41,3 +41,4 @@ include(":feature:profile:impl")
 
 include(":umbrella")
 include(":feature:races:impl")
+include(":core:navigation")

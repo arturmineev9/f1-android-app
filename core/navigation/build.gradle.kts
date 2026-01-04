@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.itis.f1app.feature.auth.api"
+    namespace = "ru.itis.f1app.core.navigation"
     compileSdk {
         version = release(libs.versions.compileSdk.get().toInt())
     }
@@ -36,9 +36,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
     implementation(libs.bundles.voyager.deps)
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

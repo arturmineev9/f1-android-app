@@ -4,13 +4,14 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import cafe.adriel.voyager.core.registry.ScreenRegistry
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.hilt.getViewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
-import ru.itis.f1app.feature.auth.impl.presentation.screen.register.RegisterScreen
+import ru.itis.f1app.core.navigation.SharedScreens
 import ru.itis.f1app.feature.auth.impl.presentation.viewmodel.AuthSideEffect
 import ru.itis.f1app.feature.auth.impl.presentation.viewmodel.AuthViewModel
 
@@ -26,8 +27,10 @@ class LoginScreen : Screen {
         viewModel.collectSideEffect { effect ->
             when (effect) {
                 AuthSideEffect.NavigateToMain -> {
-                    Toast.makeText(context, "Welcome to F1 App!", Toast.LENGTH_SHORT).show()
+                    val racesScreen = ScreenRegistry.get(SharedScreens.Races)
+                    navigator.replaceAll(racesScreen)
                 }
+
                 is AuthSideEffect.ShowToast -> {
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
                 }
@@ -37,7 +40,10 @@ class LoginScreen : Screen {
         LoginContent(
             state = state,
             onLoginClick = viewModel::onLoginClicked,
-            onRegisterClick = { navigator.push(RegisterScreen()) },
+            onRegisterClick = {
+                val registerScreen = ScreenRegistry.get(SharedScreens.Register)
+                navigator.push(registerScreen)
+            },
             onValueChange = viewModel::clearError
         )
     }
