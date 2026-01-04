@@ -27,11 +27,9 @@ class AuthViewModel @Inject constructor(
                 postSideEffect(AuthSideEffect.NavigateToMain)
             }
             is Result.Error -> {
-                // Пытаемся скастить ошибку к нашему типу, иначе null
                 val authEx = result.exception as? AuthExceptions
                 reduce { state.copy(isLoading = false, error = authEx) }
 
-                // Если ошибка неизвестная, покажем тост
                 if (authEx == null) {
                     postSideEffect(AuthSideEffect.ShowToast(result.exception.localizedMessage ?: "Error"))
                 }

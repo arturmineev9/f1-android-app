@@ -30,7 +30,7 @@ class RacesRepositoryImplTest {
 
     @Test
     fun `getRaces returns mapped domain models from dao`() = runTest {
-        val year = 2024
+        val year = 2025
         val entityList = listOf(mockk<RaceEntity>())
         val domainList = listOf(mockk<Race>())
 
@@ -46,7 +46,7 @@ class RacesRepositoryImplTest {
 
     @Test
     fun `refreshRaces fetches from api, maps and inserts to dao`() = runTest {
-        val year = 2024
+        val year = 2025
         val raceDtoList = listOf(mockk<RaceDto>())
         val response = RacesResponseDto(races = raceDtoList)
         val entityList = listOf(mockk<RaceEntity>())

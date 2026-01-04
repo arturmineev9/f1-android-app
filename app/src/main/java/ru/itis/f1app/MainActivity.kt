@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import cafe.adriel.voyager.navigator.Navigator
 import dagger.hilt.android.AndroidEntryPoint
-import ru.itis.f1app.feature.auth.impl.presentation.screen.login.LoginScreen
+import ru.itis.f1app.feature.races.impl.presentation.screen.RacesScreen
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Navigator(LoginScreen())
+            Navigator(RacesScreen())
         }
     }
 }

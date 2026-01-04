@@ -56,6 +56,7 @@ android {
 
 dependencies {
     implementation(project(":feature:auth:impl"))
+    implementation(project(":feature:races:impl"))
     implementation(project(":umbrella"))
 
     implementation(libs.androidx.core.ktx)
