@@ -13,9 +13,9 @@ class RaceMapperTest {
 
     @Test
     fun `mapDtoToEntity maps fields correctly and concatenates date`() {
-        val year = 2024
+        val year = 2025
         val dto = RaceDto(
-            id = "bahrain_2024",
+            id = "bahrain_2025",
             name = "Bahrain GP",
             round = 1,
             circuit = CircuitDto(
@@ -25,7 +25,7 @@ class RaceMapperTest {
             ),
             schedule = ScheduleDto(
                 race = SessionDto(
-                    date = "2024-03-02",
+                    date = "2025-03-02",
                     time = "15:00:00Z"
                 )
             )
@@ -33,12 +33,12 @@ class RaceMapperTest {
 
         val entity = mapper.mapDtoToEntity(dto, year)
 
-        assertEquals("bahrain_2024", entity.id)
+        assertEquals("bahrain_2025", entity.id)
         assertEquals("Bahrain GP", entity.name)
         assertEquals("Bahrain", entity.country)
         assertEquals("Sakhir", entity.circuitName)
         assertEquals(1, entity.round)
-        assertEquals(2024, entity.year)
-        assertEquals("2024-03-02T15:00:00Z", entity.dateStart)
+        assertEquals(2025, entity.year)
+        assertEquals("2025-03-02T15:00:00Z", entity.dateStart)
     }
 }

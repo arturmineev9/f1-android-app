@@ -17,6 +17,7 @@ import ru.itis.f1app.feature.races.impl.data.mapper.RaceMapper
 import ru.itis.f1app.feature.races.impl.data.network.api.RacesApi
 import ru.itis.f1app.feature.races.impl.data.network.dto.RaceDto
 import ru.itis.f1app.feature.races.impl.data.network.dto.RacesResponseDto
+import ru.itis.f1app.feature.races.impl.data.network.repository.RacesRepositoryImpl
 
 class RacesRepositoryImplTest {
 

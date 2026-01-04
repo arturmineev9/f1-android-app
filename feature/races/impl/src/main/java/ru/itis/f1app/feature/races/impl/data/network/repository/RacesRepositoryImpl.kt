@@ -1,13 +1,15 @@
-package ru.itis.f1app.feature.races.impl.data.repository
+package ru.itis.f1app.feature.races.impl.data.network.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import retrofit2.HttpException
 import ru.itis.f1app.core.database.dao.RacesDao
 import ru.itis.f1app.feature.races.api.domain.exception.RacesExceptions
 import ru.itis.f1app.feature.races.api.domain.model.Race
 import ru.itis.f1app.feature.races.api.domain.repository.RacesRepository
 import ru.itis.f1app.feature.races.impl.data.mapper.RaceMapper
 import ru.itis.f1app.feature.races.impl.data.network.api.RacesApi
+import java.io.IOException
 import javax.inject.Inject
 
 class RacesRepositoryImpl @Inject constructor(
@@ -32,8 +34,8 @@ class RacesRepositoryImpl @Inject constructor(
             dao.insertAll(entities)
         } catch (e: Exception) {
             throw when (e) {
-                is java.io.IOException -> RacesExceptions.NetworkConnection(e)
-                is retrofit2.HttpException -> RacesExceptions.ServerError(e.code(), e.message())
+                is IOException -> RacesExceptions.NetworkConnection(e)
+                is HttpException -> RacesExceptions.ServerError(e.code(), e.message())
                 is RacesExceptions -> e
                 else -> RacesExceptions.Unknown(e)
             }

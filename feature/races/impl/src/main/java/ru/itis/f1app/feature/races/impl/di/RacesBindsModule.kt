@@ -7,7 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import ru.itis.f1app.feature.races.api.domain.repository.RacesRepository
 import ru.itis.f1app.feature.races.api.domain.usecase.GetRacesUseCase
 import ru.itis.f1app.feature.races.api.domain.usecase.RefreshRacesUseCase
-import ru.itis.f1app.feature.races.impl.data.repository.RacesRepositoryImpl
+import ru.itis.f1app.feature.races.impl.data.network.repository.RacesRepositoryImpl
 import ru.itis.f1app.feature.races.impl.domain.usecase.GetRacesUseCaseImpl
 import ru.itis.f1app.feature.races.impl.domain.usecase.RefreshRacesUseCaseImpl
 import javax.inject.Singleton
