@@ -23,7 +23,7 @@ class RacesRepositoryImpl @Inject constructor(
             mapper.mapEntityListToDomainList(entities)
         }
     }
-
+    @Suppress("TooGenericExceptionCaught", "SwallowedException")
     override suspend fun refreshRaces(year: Int) {
         try {
             val response = api.getRacesByYear(year)
@@ -32,13 +32,14 @@ class RacesRepositoryImpl @Inject constructor(
             }
             val entities = mapper.mapDtoListToEntityList(response.races, year)
             dao.insertAll(entities)
+        } catch (e: IOException) {
+            throw RacesExceptions.NetworkConnection(e)
+        } catch (e: HttpException) {
+            throw RacesExceptions.ServerError(e.code(), e.message())
+        } catch (e: RacesExceptions) {
+            throw e
         } catch (e: Exception) {
-            throw when (e) {
-                is IOException -> RacesExceptions.NetworkConnection(e)
-                is HttpException -> RacesExceptions.ServerError(e.code(), e.message())
-                is RacesExceptions -> e
-                else -> RacesExceptions.Unknown(e)
-            }
+            throw RacesExceptions.Unknown(e)
         }
     }
 }
