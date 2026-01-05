@@ -2,7 +2,7 @@ package ru.itis.f1app.feature.races.impl.data.mapper
 
 import ru.itis.f1app.core.database.entity.RaceEntity
 import ru.itis.f1app.feature.races.api.domain.model.Race
-import ru.itis.f1app.feature.races.impl.data.network.dto.RaceDto
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.RaceDto
 import javax.inject.Inject
 
 class RaceMapper @Inject constructor() {

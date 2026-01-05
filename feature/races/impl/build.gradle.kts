@@ -77,5 +77,7 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
 
+    implementation(libs.coroutines)
+    implementation(libs.coroutines.android)
     implementation(libs.bundles.network.deps)
 }

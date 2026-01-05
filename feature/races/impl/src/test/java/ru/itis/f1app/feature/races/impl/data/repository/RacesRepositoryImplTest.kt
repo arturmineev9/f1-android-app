@@ -16,8 +16,8 @@ import ru.itis.f1app.feature.races.api.domain.exception.RacesExceptions
 import ru.itis.f1app.feature.races.api.domain.model.Race
 import ru.itis.f1app.feature.races.impl.data.mapper.RaceMapper
 import ru.itis.f1app.feature.races.impl.data.network.api.RacesApi
-import ru.itis.f1app.feature.races.impl.data.network.dto.RaceDto
-import ru.itis.f1app.feature.races.impl.data.network.dto.RacesResponseDto
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.RaceDto
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.RacesResponse
 import ru.itis.f1app.feature.races.impl.data.network.repository.RacesRepositoryImpl
 
 class RacesRepositoryImplTest {
@@ -48,7 +48,7 @@ class RacesRepositoryImplTest {
     fun `refreshRaces fetches from api, maps and inserts to dao`() = runTest {
         val year = 2025
         val raceDtoList = listOf(mockk<RaceDto>())
-        val response = RacesResponseDto(races = raceDtoList)
+        val response = RacesResponse(races = raceDtoList)
         val entityList = listOf(mockk<RaceEntity>())
 
         coEvery { api.getRacesByYear(year) } returns response

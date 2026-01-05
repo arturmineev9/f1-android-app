@@ -1,19 +1,22 @@
 package ru.itis.f1app.feature.races.impl.data.network.repository
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import retrofit2.HttpException
 import ru.itis.f1app.core.database.dao.RacesDao
 import ru.itis.f1app.feature.races.api.domain.exception.RacesExceptions
 import ru.itis.f1app.feature.races.api.domain.model.Race
+import ru.itis.f1app.feature.races.api.domain.model.RaceDetails
 import ru.itis.f1app.feature.races.api.domain.repository.RacesRepository
 import ru.itis.f1app.feature.races.impl.data.mapper.RaceMapper
-import ru.itis.f1app.feature.races.impl.data.network.api.RacesApi
+import ru.itis.f1app.feature.races.impl.data.mapper.toDomainDetails
+import ru.itis.f1app.feature.races.impl.data.network.datasource.RacesRemoteDataSource
 import java.io.IOException
 import javax.inject.Inject
 
 class RacesRepositoryImpl @Inject constructor(
-    private val api: RacesApi,
+    private val remoteDataSource: RacesRemoteDataSource,
     private val dao: RacesDao,
     private val mapper: RaceMapper
 ) : RacesRepository {
@@ -23,10 +26,12 @@ class RacesRepositoryImpl @Inject constructor(
             mapper.mapEntityListToDomainList(entities)
         }
     }
-    @Suppress("TooGenericExceptionCaught", "SwallowedException")
+
+    @Suppress("SwallowedException")
     override suspend fun refreshRaces(year: Int) {
         try {
-            val response = api.getRacesByYear(year)
+            val response = remoteDataSource.getRaces(year)
+
             if (response.races.isEmpty()) {
                 throw RacesExceptions.NoDataAvailable()
             }
@@ -42,4 +47,22 @@ class RacesRepositoryImpl @Inject constructor(
             throw RacesExceptions.Unknown(e)
         }
     }
+
+    override suspend fun getRaceDetails(year: Int, round: Int): RaceDetails {
+        return try {
+            val response = remoteDataSource.getRaceDetails(year, round)
+            val raceDto = response.mrData.raceTable.races.firstOrNull()
+
+            raceDto?.toDomainDetails() ?: throw RacesExceptions.NoDataAvailable()
+
+        } catch (e: Exception) {
+            throw when (e) {
+                is IOException -> RacesExceptions.NetworkConnection(e)
+                is HttpException -> RacesExceptions.ServerError(e.code(), e.message())
+                is RacesExceptions -> e
+                else -> RacesExceptions.Unknown(e)
+            }
+        }
+    }
+
 }

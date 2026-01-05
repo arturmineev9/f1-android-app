@@ -2,10 +2,10 @@ package ru.itis.f1app.feature.races.impl.data.mapper
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import ru.itis.f1app.feature.races.impl.data.network.dto.CircuitDto
-import ru.itis.f1app.feature.races.impl.data.network.dto.RaceDto
-import ru.itis.f1app.feature.races.impl.data.network.dto.ScheduleDto
-import ru.itis.f1app.feature.races.impl.data.network.dto.SessionDto
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.CircuitDto
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.RaceDto
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.ScheduleDto
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.SessionDto
 
 class RaceMapperTest {
 
