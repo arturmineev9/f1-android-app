@@ -19,8 +19,8 @@ import ru.itis.f1app.feature.races.impl.data.network.datasource.RacesRemoteDataS
 import ru.itis.f1app.feature.races.impl.data.network.repository.RacesRepositoryImpl
 import ru.itis.f1app.feature.races.impl.data.network.dto.race.RaceDto as ListRaceDto
 import ru.itis.f1app.feature.races.impl.data.network.dto.race.RacesResponse
-import ru.itis.f1app.feature.races.impl.data.network.dto.race_details.RaceDetailsResponse
-import ru.itis.f1app.feature.races.impl.data.network.dto.race_details.RaceDetailsDto // Новый DTO деталей
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.details.RaceDetailsResponse
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.details.RaceDetailsDto // Новый DTO деталей
 
 class RacesRepositoryImplTest {
 

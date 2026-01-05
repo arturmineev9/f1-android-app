@@ -1,4 +1,4 @@
-package ru.itis.f1app.feature.races.impl.data.network.dto.race_details
+package ru.itis.f1app.feature.races.impl.data.network.dto.race.details
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
@@ -10,8 +10,6 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.JsonDecoder
 import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.contentOrNull
-import kotlinx.serialization.json.intOrNull
 
 @Serializable
 data class RaceDetailsResponse(
@@ -73,7 +71,7 @@ object IntOrStringSerializer : KSerializer<String> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("IntOrString", PrimitiveKind.STRING)
 
     override fun deserialize(decoder: Decoder): String {
-        val jsonInput = decoder as? JsonDecoder ?: throw IllegalStateException("Can be deserialized only by JSON")
+        val jsonInput = decoder as? JsonDecoder ?: error("Can be deserialized only by JSON")
         val json = jsonInput.decodeJsonElement()
 
         return if (json is JsonPrimitive) {

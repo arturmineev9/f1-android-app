@@ -5,8 +5,8 @@ import ru.itis.f1app.feature.races.api.domain.model.Race
 import ru.itis.f1app.feature.races.api.domain.model.RaceDetails
 import ru.itis.f1app.feature.races.api.domain.model.RaceResult
 import ru.itis.f1app.feature.races.impl.data.network.dto.race.RaceDto
-import ru.itis.f1app.feature.races.impl.data.network.dto.race_details.RaceDetailsDto
-import ru.itis.f1app.feature.races.impl.data.network.dto.race_details.ResultDto
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.details.RaceDetailsDto
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.details.ResultDto
 import javax.inject.Inject
 
 class RaceMapper @Inject constructor() {

@@ -1,4 +1,4 @@
-package ru.itis.f1app.feature.races.impl.presentation.mvi.races_details
+package ru.itis.f1app.feature.races.impl.presentation.mvi.races.details
 
 import ru.itis.f1app.feature.races.api.domain.model.RaceDetails
 

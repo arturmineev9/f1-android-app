@@ -1,11 +1,18 @@
-package ru.itis.f1app.feature.races.impl.presentation.screen.races_details
+package ru.itis.f1app.feature.races.impl.presentation.screen.details
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,8 +24,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
-import ru.itis.f1app.feature.races.impl.presentation.mvi.races_details.RaceDetailsSideEffect
-import ru.itis.f1app.feature.races.impl.presentation.mvi.races_details.RaceDetailsViewModel
+import ru.itis.f1app.feature.races.impl.presentation.mvi.races.details.RaceDetailsSideEffect
+import ru.itis.f1app.feature.races.impl.presentation.mvi.races.details.RaceDetailsViewModel
 
 data class RaceDetailsScreen(
     val raceId: String,

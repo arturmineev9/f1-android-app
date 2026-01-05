@@ -8,11 +8,11 @@ import ru.itis.f1app.feature.races.impl.data.network.dto.race.ScheduleDto
 import ru.itis.f1app.feature.races.impl.data.network.dto.race.SessionDto
 
 // Импорты для деталей
-import ru.itis.f1app.feature.races.impl.data.network.dto.race_details.RaceDetailsDto
-import ru.itis.f1app.feature.races.impl.data.network.dto.race_details.CircuitDto as DetailsCircuitDto
-import ru.itis.f1app.feature.races.impl.data.network.dto.race_details.ResultDto
-import ru.itis.f1app.feature.races.impl.data.network.dto.race_details.DriverDto
-import ru.itis.f1app.feature.races.impl.data.network.dto.race_details.ConstructorDto
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.details.RaceDetailsDto
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.details.CircuitDto as DetailsCircuitDto
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.details.ResultDto
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.details.DriverDto
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.details.ConstructorDto
 
 class RaceMapperTest {
 

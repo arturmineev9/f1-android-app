@@ -1,7 +1,6 @@
 package ru.itis.f1app.feature.races.impl.presentation.screen.races
 
 import android.content.Context
-import android.widget.Toast
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,7 +18,7 @@ import ru.itis.f1app.feature.races.api.domain.exception.RacesExceptions
 import ru.itis.f1app.feature.races.impl.R
 import ru.itis.f1app.feature.races.impl.presentation.mvi.races.RacesSideEffect
 import ru.itis.f1app.feature.races.impl.presentation.mvi.races.RacesViewModel
-import ru.itis.f1app.feature.races.impl.presentation.screen.races_details.RaceDetailsScreen
+import ru.itis.f1app.feature.races.impl.presentation.screen.details.RaceDetailsScreen
 
 class RacesScreen : Screen {
     @Composable
