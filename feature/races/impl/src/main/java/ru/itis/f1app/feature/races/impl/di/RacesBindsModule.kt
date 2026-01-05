@@ -5,11 +5,13 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.itis.f1app.feature.races.api.domain.repository.RacesRepository
+import ru.itis.f1app.feature.races.api.domain.usecase.GetRaceDetailsUseCase
 import ru.itis.f1app.feature.races.api.domain.usecase.GetRacesUseCase
 import ru.itis.f1app.feature.races.api.domain.usecase.RefreshRacesUseCase
 import ru.itis.f1app.feature.races.impl.data.network.datasource.RacesRemoteDataSource
 import ru.itis.f1app.feature.races.impl.data.network.datasource.RacesRemoteDataSourceImpl
 import ru.itis.f1app.feature.races.impl.data.network.repository.RacesRepositoryImpl
+import ru.itis.f1app.feature.races.impl.domain.usecase.GetRaceDetailsUseCaseImpl
 import ru.itis.f1app.feature.races.impl.domain.usecase.GetRacesUseCaseImpl
 import ru.itis.f1app.feature.races.impl.domain.usecase.RefreshRacesUseCaseImpl
 import javax.inject.Singleton
@@ -27,6 +29,9 @@ abstract class RacesBindsModule {
 
     @Binds
     abstract fun bindRefreshRacesUseCase(impl: RefreshRacesUseCaseImpl): RefreshRacesUseCase
+
+    @Binds
+    abstract fun bindGetRaceDetailsUseCase(impl: GetRaceDetailsUseCaseImpl): GetRaceDetailsUseCase
 
     @Binds
     abstract fun bindRacesRemoteDataSource(impl: RacesRemoteDataSourceImpl): RacesRemoteDataSource

@@ -1,4 +1,4 @@
-package ru.itis.f1app.feature.races.impl.presentation.screen
+package ru.itis.f1app.feature.races.impl.presentation.screen.races
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,7 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.itis.f1app.feature.races.api.domain.model.Race
 import ru.itis.f1app.feature.races.impl.R
-import ru.itis.f1app.feature.races.impl.presentation.mvi.RacesState
+import ru.itis.f1app.feature.races.impl.presentation.mvi.races.RacesState
 import ru.itis.f1app.feature.races.impl.presentation.utils.formattedDate
 
 @OptIn(ExperimentalMaterial3Api::class)

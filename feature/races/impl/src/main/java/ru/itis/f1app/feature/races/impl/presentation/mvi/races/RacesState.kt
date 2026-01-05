@@ -1,4 +1,4 @@
-package ru.itis.f1app.feature.races.impl.presentation.mvi
+package ru.itis.f1app.feature.races.impl.presentation.mvi.races
 
 import ru.itis.f1app.feature.races.api.domain.exception.RacesExceptions
 import ru.itis.f1app.feature.races.api.domain.model.Race

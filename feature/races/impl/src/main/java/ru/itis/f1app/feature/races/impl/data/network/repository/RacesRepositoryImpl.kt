@@ -1,7 +1,6 @@
 package ru.itis.f1app.feature.races.impl.data.network.repository
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import retrofit2.HttpException
 import ru.itis.f1app.core.database.dao.RacesDao
@@ -10,7 +9,6 @@ import ru.itis.f1app.feature.races.api.domain.model.Race
 import ru.itis.f1app.feature.races.api.domain.model.RaceDetails
 import ru.itis.f1app.feature.races.api.domain.repository.RacesRepository
 import ru.itis.f1app.feature.races.impl.data.mapper.RaceMapper
-import ru.itis.f1app.feature.races.impl.data.mapper.toDomainDetails
 import ru.itis.f1app.feature.races.impl.data.network.datasource.RacesRemoteDataSource
 import java.io.IOException
 import javax.inject.Inject
@@ -51,9 +49,8 @@ class RacesRepositoryImpl @Inject constructor(
     override suspend fun getRaceDetails(year: Int, round: Int): RaceDetails {
         return try {
             val response = remoteDataSource.getRaceDetails(year, round)
-            val raceDto = response.mrData.raceTable.races.firstOrNull()
-
-            raceDto?.toDomainDetails() ?: throw RacesExceptions.NoDataAvailable()
+            val raceDto = response.race
+            mapper.mapDetailsDtoToDomain(raceDto)
 
         } catch (e: Exception) {
             throw when (e) {
@@ -64,5 +61,4 @@ class RacesRepositoryImpl @Inject constructor(
             }
         }
     }
-
 }

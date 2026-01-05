@@ -9,7 +9,7 @@ interface RacesApi {
     @GET("{year}")
     suspend fun getRacesByYear(@Path("year") year: Int): RacesResponse
 
-    @GET("{year}/{round}/results.json")
+    @GET("{year}/{round}/race")
     suspend fun getRaceResults(
         @Path("year") year: Int,
         @Path("round") round: Int

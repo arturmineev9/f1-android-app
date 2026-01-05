@@ -1,4 +1,4 @@
-package ru.itis.f1app.feature.races.impl.presentation.screen
+package ru.itis.f1app.feature.races.impl.presentation.screen.races
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
