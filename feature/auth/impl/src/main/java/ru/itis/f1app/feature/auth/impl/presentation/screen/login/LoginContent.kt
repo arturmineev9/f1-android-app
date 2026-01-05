@@ -87,7 +87,7 @@ private fun LoginInputs(
     OutlinedTextField(
         value = password,
         onValueChange = onPasswordChange,
-        label = { Text(stringResource(R.string.label_username)) },
+        label = { Text(stringResource(R.string.label_password)) },
         visualTransformation = PasswordVisualTransformation(),
         isError = state.error is AuthExceptions.InvalidCredentials,
         modifier = Modifier.fillMaxWidth()

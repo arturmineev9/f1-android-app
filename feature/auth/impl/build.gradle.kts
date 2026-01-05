@@ -40,9 +40,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:auth:api"))
-    implementation(project(":core:database"))
     implementation(project(":core:common"))
+    implementation(project(":core:database"))
+    implementation(project(":core:navigation"))
+
+    implementation(project(":feature:auth:api"))
 
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
