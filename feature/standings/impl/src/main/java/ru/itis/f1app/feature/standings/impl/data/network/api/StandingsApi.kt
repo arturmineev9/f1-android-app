@@ -7,12 +7,12 @@ import retrofit2.http.Path
 
 interface StandingsApi {
 
-    @GET("api/{year}/drivers-championship")
+    @GET("{year}/drivers-championship")
     suspend fun getDriverStandings(
         @Path("year") year: String
     ): DriverStandingsResponseDto
 
-    @GET("api/{year}/constructors-championship")
+    @GET("{year}/constructors-championship")
     suspend fun getConstructorStandings(
         @Path("year") year: String
     ): ConstructorStandingsResponseDto

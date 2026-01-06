@@ -10,6 +10,7 @@ import ru.itis.f1app.core.navigation.SharedScreens
 import ru.itis.f1app.feature.auth.impl.presentation.screen.login.LoginScreen
 import ru.itis.f1app.feature.auth.impl.presentation.screen.register.RegisterScreen
 import ru.itis.f1app.feature.races.impl.presentation.screen.races.RacesScreen
+import ru.itis.f1app.feature.standings.impl.presentation.StandingsScreen
 import ru.itis.f1app.presentation.RootScreen
 
 @AndroidEntryPoint
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            Navigator(RootScreen())
+            Navigator(StandingsScreen())
         }
     }
 }

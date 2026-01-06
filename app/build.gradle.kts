@@ -60,6 +60,8 @@ dependencies {
     implementation(project(":feature:auth:impl"))
     implementation(project(":feature:races:api"))
     implementation(project(":feature:races:impl"))
+    implementation(project(":feature:standings:api"))
+    implementation(project(":feature:standings:impl"))
     implementation(project(":umbrella"))
 
     implementation(libs.androidx.core.ktx)
