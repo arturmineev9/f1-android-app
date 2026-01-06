@@ -11,6 +11,7 @@ import ru.itis.f1app.feature.auth.impl.presentation.screen.login.LoginScreen
 import ru.itis.f1app.feature.auth.impl.presentation.screen.register.RegisterScreen
 import ru.itis.f1app.feature.races.impl.presentation.screen.races.RacesScreen
 import ru.itis.f1app.feature.standings.impl.presentation.StandingsScreen
+import ru.itis.f1app.presentation.MainScreen
 import ru.itis.f1app.presentation.RootScreen
 
 @AndroidEntryPoint
@@ -20,12 +21,16 @@ class MainActivity : ComponentActivity() {
 
         ScreenRegistry {
             register<SharedScreens.Login> { LoginScreen() }
-            register<SharedScreens.Races> { RacesScreen() }
             register<SharedScreens.Register> { RegisterScreen() }
+
+            register<SharedScreens.Main> { MainScreen() }
+
+            register<SharedScreens.Races> { RacesScreen() }
+            register<SharedScreens.Standings> { StandingsScreen() }
         }
 
         setContent {
-            Navigator(StandingsScreen())
+            Navigator(RootScreen())
         }
     }
 }

@@ -64,6 +64,7 @@ dependencies {
     implementation(project(":feature:standings:impl"))
     implementation(project(":umbrella"))
 
+    implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
