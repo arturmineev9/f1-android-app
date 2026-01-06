@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.EmojiEvents
-import androidx.compose.material.icons.filled.Flag
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -62,7 +62,7 @@ object RacesTab : Tab {
         @Composable
         get() {
             val title = "Races"
-            val icon = rememberVectorPainter(Icons.Filled.Flag)
+            val icon = rememberVectorPainter(Icons.Filled.List)
 
             return remember {
                 TabOptions(
@@ -84,7 +84,7 @@ object StandingsTab : Tab {
         @Composable
         get() {
             val title = "Standings"
-            val icon = rememberVectorPainter(Icons.Filled.EmojiEvents)
+            val icon = rememberVectorPainter(Icons.Filled.Person)
 
             return remember {
                 TabOptions(
