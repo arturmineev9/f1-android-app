@@ -1,7 +1,6 @@
-package ru.itis.f1app.feature.races.impl.presentation.screen
+package ru.itis.f1app.feature.races.impl.presentation.screen.races
 
 import android.content.Context
-import android.widget.Toast
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -10,17 +9,21 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.hilt.getViewModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import ru.itis.f1app.feature.races.api.domain.exception.RacesExceptions
 import ru.itis.f1app.feature.races.impl.R
-import ru.itis.f1app.feature.races.impl.presentation.mvi.RacesSideEffect
-import ru.itis.f1app.feature.races.impl.presentation.mvi.RacesViewModel
+import ru.itis.f1app.feature.races.impl.presentation.mvi.races.RacesSideEffect
+import ru.itis.f1app.feature.races.impl.presentation.mvi.races.RacesViewModel
+import ru.itis.f1app.feature.races.impl.presentation.screen.details.RaceDetailsScreen
 
 class RacesScreen : Screen {
     @Composable
     override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
         val viewModel = getViewModel<RacesViewModel>()
         val state by viewModel.collectAsState()
         val context = LocalContext.current
@@ -39,7 +42,13 @@ class RacesScreen : Screen {
                     }
                 }
                 is RacesSideEffect.NavigateToDetails -> {
-                    Toast.makeText(context, "Clicked: ${effect.raceId}", Toast.LENGTH_SHORT).show()
+                    navigator.push(
+                        RaceDetailsScreen(
+                            raceId = effect.raceId,
+                            year = effect.year,
+                            round = effect.round
+                        )
+                    )
                 }
             }
         }

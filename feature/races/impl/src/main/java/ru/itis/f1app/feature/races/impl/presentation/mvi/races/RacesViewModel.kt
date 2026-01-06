@@ -1,4 +1,4 @@
-package ru.itis.f1app.feature.races.impl.presentation.mvi
+package ru.itis.f1app.feature.races.impl.presentation.mvi.races
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -37,7 +37,19 @@ class RacesViewModel @Inject constructor(
     }
 
     fun onRaceClicked(raceId: String) = intent {
-        postSideEffect(RacesSideEffect.NavigateToDetails(raceId))
+        val selectedRace = state.races.find { it.id == raceId }
+
+        if (selectedRace != null) {
+            postSideEffect(
+                RacesSideEffect.NavigateToDetails(
+                    raceId = selectedRace.id,
+                    round = selectedRace.round,
+                    year = state.selectedYear
+                )
+            )
+        } else {
+            postSideEffect(RacesSideEffect.ShowError(RacesExceptions.Unknown(Exception("Race not found"))))
+        }
     }
 
     fun clearError() = intent {
@@ -57,6 +69,8 @@ class RacesViewModel @Inject constructor(
     }
 
     private fun refreshData(year: Int) = intent {
+        if (state.isLoading) return@intent
+
         reduce { state.copy(isLoading = true, error = null) }
         try {
             refreshRacesUseCase(year)

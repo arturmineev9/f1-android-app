@@ -2,7 +2,11 @@ package ru.itis.f1app.feature.races.impl.data.mapper
 
 import ru.itis.f1app.core.database.entity.RaceEntity
 import ru.itis.f1app.feature.races.api.domain.model.Race
-import ru.itis.f1app.feature.races.impl.data.network.dto.RaceDto
+import ru.itis.f1app.feature.races.api.domain.model.RaceDetails
+import ru.itis.f1app.feature.races.api.domain.model.RaceResult
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.RaceDto
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.details.RaceDetailsDto
+import ru.itis.f1app.feature.races.impl.data.network.dto.race.details.ResultDto
 import javax.inject.Inject
 
 class RaceMapper @Inject constructor() {
@@ -38,5 +42,27 @@ class RaceMapper @Inject constructor() {
 
     fun mapEntityListToDomainList(entities: List<RaceEntity>): List<Race> {
         return entities.map { mapEntityToDomain(it) }
+    }
+
+    fun mapDetailsDtoToDomain(dto: RaceDetailsDto): RaceDetails {
+        return RaceDetails(
+            raceId = dto.date,
+            raceName = dto.raceName,
+            circuitName = dto.circuit.circuitName,
+            location = "${dto.circuit.locality}, ${dto.circuit.country}",
+            date = dto.date,
+            results = dto.results.map { it.toDomain() }
+        )
+    }
+
+    private fun ResultDto.toDomain(): RaceResult {
+        return RaceResult(
+            position = this.position.toIntOrNull() ?: 0,
+            driverName = "${this.driver.givenName} ${this.driver.familyName}",
+            constructorName = this.team.name,
+            points = this.points.toString(),
+            time = this.time ?: "DNF",
+            gridPosition = this.grid.toIntOrNull() ?: 0
+        )
     }
 }
