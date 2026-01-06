@@ -23,7 +23,8 @@ class RootScreen : Screen {
         LaunchedEffect(Unit) {
             val isLoggedIn = viewModel.checkAuthStatus()
             if (isLoggedIn) {
-                navigator.replace(ScreenRegistry.get(SharedScreens.Races))
+
+                navigator.replace(ScreenRegistry.get(SharedScreens.Main))
             } else {
                 navigator.replace(ScreenRegistry.get(SharedScreens.Login))
             }

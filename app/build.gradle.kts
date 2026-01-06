@@ -60,8 +60,10 @@ dependencies {
     implementation(project(":feature:auth:impl"))
     implementation(project(":feature:races:api"))
     implementation(project(":feature:races:impl"))
-    implementation(project(":umbrella"))
+    implementation(project(":feature:standings:api"))
+    implementation(project(":feature:standings:impl"))
 
+    //implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
