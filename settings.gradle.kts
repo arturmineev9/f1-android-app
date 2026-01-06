@@ -27,18 +27,18 @@ include(":core:database")
 include(":core:model")
 include(":core:ui")
 include(":core:common")
+include(":core:navigation")
 
 include(":feature:auth:api")
 include(":feature:auth:impl")
 
 include(":feature:races:api")
+include(":feature:races:impl")
 
 include(":feature:standings:api")
 include(":feature:standings:impl")
 
-include(":feature:profile:api")
-include(":feature:profile:impl")
+include(":feature:drivers:api")
+include(":feature:drivers:impl")
 
 include(":umbrella")
-include(":feature:races:impl")
-include(":core:navigation")
