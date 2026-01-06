@@ -11,6 +11,7 @@ import ru.itis.f1app.feature.standings.impl.data.network.datasource.StandingsRem
 import ru.itis.f1app.feature.standings.impl.domain.exception.StandingsExceptions
 import java.io.IOException
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 
 class StandingsRepositoryImpl @Inject constructor(
     private val remoteDataSource: StandingsRemoteDataSource,
@@ -32,6 +33,7 @@ class StandingsRepositoryImpl @Inject constructor(
             emit(domainData)
 
         } catch (e: Exception) {
+            if (e is CancellationException) throw e
             throw mapToDomainException(e)
         }
     }
@@ -51,6 +53,7 @@ class StandingsRepositoryImpl @Inject constructor(
             emit(domainData)
 
         } catch (e: Exception) {
+            if (e is CancellationException) throw e
             throw mapToDomainException(e)
         }
     }
