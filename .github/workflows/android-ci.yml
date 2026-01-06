@@ -10,8 +10,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    timeout-minutes: 30
+
     env:
       F1_BASE_URL: ${{ secrets.F1_BASE_URL }}
+      GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
 
     steps:
       - name: Checkout code
@@ -34,15 +37,17 @@ jobs:
           echo "$GOOGLE_SERVICES_JSON" | base64 --decode > app/google-services.json
 
       - name: Run Detekt
-        run: ./gradlew detekt
+        run: ./gradlew detekt --stacktrace
 
-      - name: Run Unit Tests
-        run: ./gradlew testDebugUnitTest
+      - name: Clean & Run Unit Tests
+        run: ./gradlew clean testDebugUnitTest --stacktrace
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug
+        if: success()
+        run: ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK artifact
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
