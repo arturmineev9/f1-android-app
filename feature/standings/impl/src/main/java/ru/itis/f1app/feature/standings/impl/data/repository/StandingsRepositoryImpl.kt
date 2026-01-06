@@ -32,8 +32,9 @@ class StandingsRepositoryImpl @Inject constructor(
 
             emit(domainData)
 
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
-            if (e is CancellationException) throw e
             throw mapToDomainException(e)
         }
     }
@@ -52,8 +53,9 @@ class StandingsRepositoryImpl @Inject constructor(
 
             emit(domainData)
 
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
-            if (e is CancellationException) throw e
             throw mapToDomainException(e)
         }
     }
