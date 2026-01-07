@@ -99,7 +99,7 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlytics" }
-firebase-performace = { id = "com.google.firebase.firebase-perf", version.ref = "firebasePerf" }
+firebase-performance = { id = "com.google.firebase.firebase-perf", version.ref = "firebasePerf" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google" }
 hilt-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
