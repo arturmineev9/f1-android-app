@@ -12,76 +12,12 @@ import kotlinx.serialization.json.JsonDecoder
 import kotlinx.serialization.json.JsonPrimitive
 
 @Serializable
-data class RaceDetailsResponse(
-    @SerialName("races") val race: RaceDetailsDto
-)
-
-@Serializable
 data class RaceDetailsDto(
-    val round: String,
-    val date: String,
-    val time: String,
-    val raceName: String,
-    val url: String,
+    @SerialName("round") val round: String,
+    @SerialName("date") val date: String,
+    @SerialName("time") val time: String,
+    @SerialName("raceName") val raceName: String,
+    @SerialName("url") val url: String,
     @SerialName("circuit") val circuit: CircuitDto,
     @SerialName("results") val results: List<ResultDto>
 )
-
-@Serializable
-data class ResultDto(
-    @Serializable(with = IntOrStringSerializer::class)
-    val position: String,
-    val points: Double,
-    @Serializable(with = IntOrStringSerializer::class)
-    val grid: String,
-    val time: String? = null,
-    @SerialName("driver") val driver: DriverDto,
-    @SerialName("team") val team: ConstructorDto
-)
-
-@Serializable
-data class DriverDto(
-    val driverId: String,
-    val code: String? = null,
-    val url: String,
-    @SerialName("name") val givenName: String,
-    @SerialName("surname") val familyName: String,
-    val dateOfBirth: String? = null,
-    val nationality: String
-)
-
-@Serializable
-data class ConstructorDto(
-    val teamId: String,
-    val url: String,
-    @SerialName("teamName") val name: String,
-    val nationality: String
-)
-
-@Serializable
-data class CircuitDto(
-    val circuitId: String,
-    val url: String,
-    val circuitName: String,
-    @SerialName("city") val locality: String,
-    val country: String
-)
-
-object IntOrStringSerializer : KSerializer<String> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("IntOrString", PrimitiveKind.STRING)
-
-    override fun deserialize(decoder: Decoder): String {
-        val jsonInput = decoder as? JsonDecoder ?: error("Can be deserialized only by JSON")
-        val json = jsonInput.decodeJsonElement()
-
-        return if (json is JsonPrimitive) {
-            if (json.isString) json.content else json.content
-        } else {
-            json.toString()
-        }
-    }
-
-    override fun serialize(encoder: Encoder, value: String) {
-        encoder.encodeString(value)
-    }
-}

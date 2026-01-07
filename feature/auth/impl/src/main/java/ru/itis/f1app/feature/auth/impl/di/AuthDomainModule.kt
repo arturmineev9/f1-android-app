@@ -8,7 +8,7 @@ import ru.itis.f1app.feature.auth.api.repository.AuthRepository
 import ru.itis.f1app.feature.auth.api.usecase.IsUserLoggedInUseCase
 import ru.itis.f1app.feature.auth.api.usecase.LoginUseCase
 import ru.itis.f1app.feature.auth.api.usecase.RegisterUseCase
-import ru.itis.f1app.feature.auth.impl.domain.repository.AuthRepositoryImpl
+import ru.itis.f1app.feature.auth.impl.data.repository.AuthRepositoryImpl
 import ru.itis.f1app.feature.auth.impl.domain.usecase.IsUserLoggedInUseCaseImpl
 import ru.itis.f1app.feature.auth.impl.domain.usecase.LoginUseCaseImpl
 import ru.itis.f1app.feature.auth.impl.domain.usecase.RegisterUseCaseImpl

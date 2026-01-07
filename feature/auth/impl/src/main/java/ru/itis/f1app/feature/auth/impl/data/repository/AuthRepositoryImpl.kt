@@ -1,4 +1,4 @@
-package ru.itis.f1app.feature.auth.impl.domain.repository
+package ru.itis.f1app.feature.auth.impl.data.repository
 
 import ru.itis.f1app.core.common.token.TokenStorage
 import ru.itis.f1app.core.common.utils.Result
