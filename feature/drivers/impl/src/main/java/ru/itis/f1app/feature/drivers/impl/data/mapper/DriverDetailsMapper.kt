@@ -24,7 +24,7 @@ class DriverDetailsMapper @Inject constructor() {
                     raceName = resultDto.race.name,
                     raceRound = resultDto.race.round,
                     date = resultDto.race.date,
-                    position = resultDto.result?.finishingPosition?.toString() ?: "DNF",
+                    position = resultDto.result?.finishingPosition ?: "DNS",
                     points = resultDto.result?.pointsObtained ?: 0.0
                 )
             }

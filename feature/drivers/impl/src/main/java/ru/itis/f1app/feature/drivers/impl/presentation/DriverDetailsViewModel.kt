@@ -33,7 +33,11 @@ class DriverDetailsViewModel @Inject constructor(
                 reduce { state.copy(isLoading = false, driverDetails = details, error = null) }
             }
             .catch { throwable ->
+                throwable.printStackTrace() // ← В консоль
                 val message = throwable.message ?: "Unknown error"
+                // Логируем более детально
+                android.util.Log.e("DriverDetailsVM", "Error loading details", throwable)
+
                 reduce { state.copy(isLoading = false, error = message) }
                 postSideEffect(DriverDetailsSideEffect.ShowError(message))
             }

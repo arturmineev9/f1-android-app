@@ -34,13 +34,18 @@ class StandingsScreen : Screen {
     override fun Content() {
         val viewModel = getViewModel<StandingsViewModel>()
         val state by viewModel.container.stateFlow.collectAsState()
-        val navigator = LocalNavigator.currentOrThrow
+        val navigator = LocalNavigator.currentOrThrow.parent ?: LocalNavigator.currentOrThrow
         val snackBarHostState = remember { SnackbarHostState() }
 
         viewModel.collectSideEffect { effect ->
             when (effect) {
                 is StandingsSideEffect.NavigateToDriverDetails -> {
-                    navigator.push(ScreenRegistry.get(SharedScreens.DriverDetails(effect.driverId)))
+                    val screen = ScreenRegistry.get(
+                        SharedScreens.DriverDetails(
+                            driverId = effect.driverId
+                        )
+                    )
+                    navigator.push(screen)
                 }
                 is StandingsSideEffect.ShowError -> {
                     snackBarHostState.showSnackbar(effect.message)

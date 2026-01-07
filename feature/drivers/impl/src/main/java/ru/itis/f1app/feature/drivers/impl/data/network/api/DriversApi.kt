@@ -6,7 +6,7 @@ import ru.itis.f1app.feature.drivers.impl.data.network.dto.DriverDetailsResponse
 
 interface DriversApi {
 
-    @GET("api/{year}/drivers/{driverId}")
+    @GET("{year}/drivers/{driverId}")
     suspend fun getDriverDetails(
         @Path("year") year: String,
         @Path("driverId") driverId: String
