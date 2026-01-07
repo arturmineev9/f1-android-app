@@ -19,6 +19,7 @@ import ru.itis.f1app.feature.races.impl.R
 import ru.itis.f1app.feature.races.impl.presentation.mvi.races.RacesSideEffect
 import ru.itis.f1app.feature.races.impl.presentation.mvi.races.RacesViewModel
 import ru.itis.f1app.feature.races.impl.presentation.screen.details.RaceDetailsScreen
+import ru.itis.f1app.feature.races.impl.presentation.screen.races.components.RacesContent
 
 class RacesScreen : Screen {
     @Composable
@@ -27,6 +28,7 @@ class RacesScreen : Screen {
         val viewModel = getViewModel<RacesViewModel>()
         val state by viewModel.collectAsState()
         val context = LocalContext.current
+
         val snackBarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
 

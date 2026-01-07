@@ -38,6 +38,7 @@ android {
 dependencies {
     api(project(":core:common"))
     api(project(":core:navigation"))
+    api(project(":core:ui"))
 
     api(project(":feature:auth:api"))
     api(project(":feature:auth:impl"))

@@ -5,19 +5,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.style.TextOverflow
 import cafe.adriel.voyager.core.registry.ScreenRegistry
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.hilt.getViewModel
@@ -28,6 +21,7 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 import ru.itis.f1app.core.navigation.SharedScreens
 import ru.itis.f1app.feature.races.impl.presentation.mvi.races.details.RaceDetailsSideEffect
 import ru.itis.f1app.feature.races.impl.presentation.mvi.races.details.RaceDetailsViewModel
+import ru.itis.f1app.feature.races.impl.presentation.screen.details.components.RaceDetailsContent
 
 data class RaceDetailsScreen(
     val raceId: String,
@@ -42,7 +36,7 @@ data class RaceDetailsScreen(
         val viewModel = getViewModel<RaceDetailsViewModel>()
         val state by viewModel.collectAsState()
 
-        LaunchedEffect(Unit) {
+        LaunchedEffect(raceId) {
             viewModel.loadRaceDetails(year, round)
         }
 
@@ -58,10 +52,20 @@ data class RaceDetailsScreen(
             }
         }
 
+        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
         Scaffold(
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
-                TopAppBar(
-                    title = { Text(state.details?.raceName ?: "Race Details") },
+                LargeTopAppBar(
+                    title = {
+                        Text(
+                            text = state.details?.raceName ?: "Race Details",
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.headlineMedium
+                        )
+                    },
                     navigationIcon = {
                         IconButton(onClick = { viewModel.onBackClicked() }) {
                             Icon(
@@ -69,7 +73,12 @@ data class RaceDetailsScreen(
                                 contentDescription = "Back"
                             )
                         }
-                    }
+                    },
+                    scrollBehavior = scrollBehavior,
+                    colors = TopAppBarDefaults.largeTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        scrolledContainerColor = MaterialTheme.colorScheme.surface
+                    )
                 )
             }
         ) { paddingValues ->
@@ -80,7 +89,7 @@ data class RaceDetailsScreen(
                     }
                     state.error != null -> {
                         Text(
-                            text = state.error ?: "Error",
+                            text = state.error ?: "Unknown error",
                             color = MaterialTheme.colorScheme.error,
                             modifier = Modifier.align(Alignment.Center)
                         )

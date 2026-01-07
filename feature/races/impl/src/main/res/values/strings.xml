@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="f1_schedule_title">Сезон F1 %1$d</string>
-    <string name="refresh">Обновить</string>
-    <string name="retry">Повторить</string>
 
     <string name="error_network_connection">Нет соединения с интернетом</string>
     <string name="error_server">Ошибка сервера: %1$d</string>
     <string name="error_no_data">Гонки не найдены в этом сезоне</string>
     <string name="error_unknown">Произошла неизвестная ошибка</string>
+
+    <string name="pit_stop_required">Необходим пит-стоп</string>
+    <string name="refresh">Обновить</string>
+    <string name="retry">Повторить</string>
 </resources>

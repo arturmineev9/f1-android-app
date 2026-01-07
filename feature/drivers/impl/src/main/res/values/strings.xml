@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="driver_details_recent_races">Недавние гонки</string>
-    <string name="driver_details_number">Номер: %1$d</string>
+    <string name="driver_details_number">Номер: %1$s</string>
     <string name="driver_details_team">Команда: %1$s</string>
     <string name="driver_details_nationality">Гражданство: %1$s</string>
     <string name="driver_details_birth_date">Дата рождения: %1$s</string>
