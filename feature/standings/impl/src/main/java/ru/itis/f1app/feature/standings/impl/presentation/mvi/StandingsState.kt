@@ -4,7 +4,7 @@ import ru.itis.f1app.feature.standings.api.domain.model.ConstructorStanding
 import ru.itis.f1app.feature.standings.api.domain.model.DriverStanding
 
 data class StandingsState(
-    val selectedTab: Int = 0, // 0 - Drivers, 1 - Constructors
+    val selectedTab: Int = 0,
     val isLoading: Boolean = false,
     val error: String? = null,
     val drivers: List<DriverStanding> = emptyList(),

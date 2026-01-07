@@ -1,5 +1,6 @@
 package ru.itis.f1app.feature.races.impl.presentation.screen.details
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,7 +32,8 @@ import ru.itis.f1app.feature.races.api.domain.model.RaceResult
 @Composable
 fun RaceDetailsContent(
     details: RaceDetails,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onDriverClick: (String) -> Unit
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf("Results", "Info")
@@ -48,31 +50,45 @@ fun RaceDetailsContent(
         }
 
         when (selectedTab) {
-            0 -> RaceResultsList(details.results)
+            0 -> RaceResultsList(
+                results = details.results,
+                onDriverClick = onDriverClick
+            )
+
             1 -> RaceInfo(details)
         }
     }
 }
 
 @Composable
-fun RaceResultsList(results: List<RaceResult>) {
+fun RaceResultsList(
+    results: List<RaceResult>,
+    onDriverClick: (String) -> Unit
+) {
     LazyColumn(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(results) { result ->
-            ResultItem(result)
+            ResultItem(
+                result = result,
+                onClick = { onDriverClick(result.driverId) }
+            )
         }
     }
 }
 
 @Composable
-fun ResultItem(result: RaceResult) {
+fun ResultItem(
+    result: RaceResult,
+    onClick: () -> Unit
+) {
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
-        )
+        ),
+        modifier = Modifier.clickable(onClick = onClick)
     ) {
         Row(
             modifier = Modifier
@@ -132,7 +148,11 @@ fun RaceInfo(details: RaceDetails) {
 @Composable
 fun InfoRow(label: String, value: String) {
     Column {
-        Text(text = label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.secondary)
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.secondary
+        )
         Text(text = value, style = MaterialTheme.typography.bodyLarge)
     }
 }

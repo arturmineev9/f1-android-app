@@ -58,6 +58,7 @@ class RaceMapper @Inject constructor() {
     private fun ResultDto.toDomain(): RaceResult {
         return RaceResult(
             position = this.position.toIntOrNull() ?: 0,
+            driverId = this.driver.driverId,
             driverName = "${this.driver.givenName} ${this.driver.familyName}",
             constructorName = this.team.name,
             points = this.points.toString(),
