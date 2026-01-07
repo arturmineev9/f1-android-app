@@ -2,7 +2,7 @@ package ru.itis.f1app.feature.drivers.impl.data.network.api
 
 import retrofit2.http.GET
 import retrofit2.http.Path
-import ru.itis.f1app.feature.drivers.impl.data.network.model.DriverDetailsResponseDto
+import ru.itis.f1app.feature.drivers.impl.data.network.dto.DriverDetailsResponseDto
 
 interface DriversApi {
 

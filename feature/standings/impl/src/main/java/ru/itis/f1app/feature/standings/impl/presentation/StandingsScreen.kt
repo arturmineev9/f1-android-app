@@ -17,11 +17,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import cafe.adriel.voyager.core.registry.ScreenRegistry
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.hilt.getViewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import org.orbitmvi.orbit.compose.collectSideEffect
+import ru.itis.f1app.core.navigation.SharedScreens
 import ru.itis.f1app.feature.standings.impl.presentation.components.ConstructorsTable
 import ru.itis.f1app.feature.standings.impl.presentation.components.DriversTable
 import ru.itis.f1app.feature.standings.impl.presentation.mvi.StandingsSideEffect
@@ -32,15 +34,13 @@ class StandingsScreen : Screen {
     override fun Content() {
         val viewModel = getViewModel<StandingsViewModel>()
         val state by viewModel.container.stateFlow.collectAsState()
-        //val navigator = LocalNavigator.currentOrThrow
+        val navigator = LocalNavigator.currentOrThrow
         val snackBarHostState = remember { SnackbarHostState() }
 
         viewModel.collectSideEffect { effect ->
             when (effect) {
                 is StandingsSideEffect.NavigateToDriverDetails -> {
-                    // Пока просто лог или тост, так как модуль Drivers еще не готов
-                    // navigator.push(DriverDetailsScreen(effect.driverId))
-                    println("Navigate to driver: ${effect.driverId}")
+                    navigator.push(ScreenRegistry.get(SharedScreens.DriverDetails(effect.driverId)))
                 }
                 is StandingsSideEffect.ShowError -> {
                     snackBarHostState.showSnackbar(effect.message)

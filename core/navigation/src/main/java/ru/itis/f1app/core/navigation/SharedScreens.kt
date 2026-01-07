@@ -9,5 +9,10 @@ sealed class SharedScreens : ScreenProvider {
     data object Races : SharedScreens()
     data object Standings : SharedScreens()
 
+    data class DriverDetails(
+        val driverId: String,
+        val year: String = "current"
+    ) : SharedScreens()
+
     data object Main : SharedScreens()
 }

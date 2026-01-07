@@ -2,7 +2,7 @@ package ru.itis.f1app.feature.drivers.impl.data.mapper
 
 import ru.itis.f1app.feature.drivers.api.domain.model.DriverDetails
 import ru.itis.f1app.feature.drivers.api.domain.model.DriverRaceResult
-import ru.itis.f1app.feature.drivers.impl.data.network.model.DriverDetailsResponseDto
+import ru.itis.f1app.feature.drivers.impl.data.network.dto.DriverDetailsResponseDto
 import javax.inject.Inject
 
 class DriverDetailsMapper @Inject constructor() {
@@ -12,21 +12,21 @@ class DriverDetailsMapper @Inject constructor() {
         val team = team
 
         return DriverDetails(
-            id = driver.id,
+            id = driver.driverId,
             fullName = "${driver.name} ${driver.surname}",
             number = driver.number?.toString(),
             nationality = driver.nationality,
             birthDate = driver.birthday,
-            teamName = team?.name,
-            teamId = team?.id,
-            wikiUrl = driver.wikiUrl,
+            teamName = team?.teamName,
+            teamId = team?.teamId,
+            wikiUrl = driver.url,
             recentResults = results.map { resultDto ->
                 DriverRaceResult(
                     raceName = resultDto.race.name,
                     raceRound = resultDto.race.round,
                     date = resultDto.race.date,
-                    position = resultDto.result?.position?.toString() ?: "DNF",
-                    points = resultDto.result?.points ?: 0.0
+                    position = resultDto.result?.finishingPosition?.toString() ?: "DNF",
+                    points = resultDto.result?.pointsObtained ?: 0.0  // ← pointsObtained
                 )
             }
         )
