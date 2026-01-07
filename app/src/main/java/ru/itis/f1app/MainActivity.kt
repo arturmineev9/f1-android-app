@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.itis.f1app.core.navigation.SharedScreens
 import ru.itis.f1app.feature.auth.impl.presentation.screen.login.LoginScreen
 import ru.itis.f1app.feature.auth.impl.presentation.screen.register.RegisterScreen
+import ru.itis.f1app.feature.drivers.impl.presentation.screen.DriverDetailsScreen
 import ru.itis.f1app.feature.races.impl.presentation.screen.races.RacesScreen
 import ru.itis.f1app.feature.standings.impl.presentation.StandingsScreen
 import ru.itis.f1app.presentation.MainScreen
@@ -27,6 +28,10 @@ class MainActivity : ComponentActivity() {
 
             register<SharedScreens.Races> { RacesScreen() }
             register<SharedScreens.Standings> { StandingsScreen() }
+
+            register<SharedScreens.DriverDetails> { screen ->
+                DriverDetailsScreen(screen.driverId, screen.year)
+            }
         }
 
         setContent {

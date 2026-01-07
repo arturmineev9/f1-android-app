@@ -38,6 +38,9 @@ class RaceDetailsViewModel @Inject constructor(
         }
     }
 
+    fun onDriverClicked(driverId: String) = intent {
+        postSideEffect(RaceDetailsSideEffect.NavigateToDriverDetails(driverId))
+    }
     fun onBackClicked() = intent {
         postSideEffect(RaceDetailsSideEffect.NavigateBack)
     }

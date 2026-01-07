@@ -62,7 +62,8 @@ dependencies {
     implementation(project(":feature:races:impl"))
     implementation(project(":feature:standings:api"))
     implementation(project(":feature:standings:impl"))
-
+    implementation(project(":feature:drivers:api"))
+    implementation(project(":feature:drivers:impl"))
     //implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.ui)

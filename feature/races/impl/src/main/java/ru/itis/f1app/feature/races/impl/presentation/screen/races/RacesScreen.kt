@@ -23,7 +23,7 @@ import ru.itis.f1app.feature.races.impl.presentation.screen.details.RaceDetailsS
 class RacesScreen : Screen {
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
+        val navigator = LocalNavigator.currentOrThrow.parent ?: LocalNavigator.currentOrThrow
         val viewModel = getViewModel<RacesViewModel>()
         val state by viewModel.collectAsState()
         val context = LocalContext.current

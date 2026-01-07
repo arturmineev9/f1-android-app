@@ -11,6 +11,7 @@ data class RaceDetails(
 
 data class RaceResult(
     val position: Int,
+    val driverId: String,
     val driverName: String,
     val constructorName: String,
     val points: String,

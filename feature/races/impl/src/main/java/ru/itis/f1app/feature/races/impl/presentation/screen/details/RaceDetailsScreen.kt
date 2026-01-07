@@ -18,12 +18,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import cafe.adriel.voyager.core.registry.ScreenRegistry
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.hilt.getViewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
+import ru.itis.f1app.core.navigation.SharedScreens
 import ru.itis.f1app.feature.races.impl.presentation.mvi.races.details.RaceDetailsSideEffect
 import ru.itis.f1app.feature.races.impl.presentation.mvi.races.details.RaceDetailsViewModel
 
@@ -36,7 +38,7 @@ data class RaceDetailsScreen(
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
+        val navigator = LocalNavigator.currentOrThrow.parent ?: LocalNavigator.currentOrThrow
         val viewModel = getViewModel<RaceDetailsViewModel>()
         val state by viewModel.collectAsState()
 
@@ -47,6 +49,12 @@ data class RaceDetailsScreen(
         viewModel.collectSideEffect { sideEffect ->
             when (sideEffect) {
                 RaceDetailsSideEffect.NavigateBack -> navigator.pop()
+                is RaceDetailsSideEffect.NavigateToDriverDetails -> {
+                    val screen = ScreenRegistry.get(
+                        SharedScreens.DriverDetails(sideEffect.driverId)
+                    )
+                    navigator.push(screen)
+                }
             }
         }
 
@@ -78,7 +86,10 @@ data class RaceDetailsScreen(
                         )
                     }
                     state.details != null -> {
-                        RaceDetailsContent(details = state.details!!)
+                        RaceDetailsContent(
+                            details = state.details!!,
+                            onDriverClick = { driverId -> viewModel.onDriverClicked(driverId) }
+                        )
                     }
                 }
             }
