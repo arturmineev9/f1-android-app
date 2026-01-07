@@ -1,77 +1,128 @@
 package ru.itis.f1app.feature.standings.impl.presentation.components
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Divider
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import ru.itis.f1app.core.ui.theme.Bronze
+import ru.itis.f1app.core.ui.theme.Gold
+import ru.itis.f1app.core.ui.theme.Silver
 import ru.itis.f1app.feature.standings.api.domain.model.ConstructorStanding
 
 @Composable
 fun ConstructorsTable(teams: List<ConstructorStanding>) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp)
+        contentPadding = PaddingValues(bottom = 16.dp)
     ) {
         item {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp),
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("#", modifier = Modifier.width(30.dp), fontWeight = FontWeight.Bold)
-                Text("Team", modifier = Modifier.weight(1f), fontWeight = FontWeight.Bold)
                 Text(
-                    "Wins",
+                    "ПОЗ",
+                    modifier = Modifier.width(40.dp),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.secondary
+                )
+                Text(
+                    "ПИЛОТ",
+                    modifier = Modifier.weight(1f),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.secondary
+                )
+                Text(
+                    "ПОБЕДЫ",
                     modifier = Modifier.width(50.dp),
                     textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.secondary
                 )
                 Text(
-                    "Pts",
+                    "ОЧКИ",
                     modifier = Modifier.width(50.dp),
                     textAlign = TextAlign.End,
-                    fontWeight = FontWeight.Bold
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.secondary
                 )
             }
-            HorizontalDivider()
         }
 
         items(teams) { team ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(team.position.toString(), modifier = Modifier.width(30.dp))
-                Text(team.teamName, modifier = Modifier.weight(1f))
-                Text(
-                    team.wins.toString(),
-                    modifier = Modifier.width(50.dp),
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    team.points.toString(),
-                    modifier = Modifier.width(50.dp),
-                    textAlign = TextAlign.End,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+            TeamRow(team)
+            HorizontalDivider(
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.2f),
+                modifier = Modifier.padding(start = 16.dp)
+            )
         }
+    }
+}
+
+@Composable
+private fun TeamRow(team: ConstructorStanding) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        val posColor = when (team.position) {
+            1 -> Gold
+            2 -> Silver
+            3 -> Bronze
+            else -> Color.Transparent
+        }
+
+        Box(
+            modifier = Modifier
+                .width(32.dp)
+                .height(24.dp)
+                .clip(RoundedCornerShape(4.dp))
+                .background(if (team.position <= 3) posColor.copy(alpha = 0.2f) else Color.Transparent),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = team.position.toString(),
+                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                color = if (team.position <= 3) posColor else MaterialTheme.colorScheme.onSurface
+            )
+        }
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Text(
+            text = team.teamName,
+            modifier = Modifier.weight(1f),
+            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold)
+        )
+
+        Text(
+            text = team.wins.toString(),
+            modifier = Modifier.width(50.dp),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.bodyMedium
+        )
+
+        Text(
+            text = String.format("%.0f", team.points),
+            modifier = Modifier.width(50.dp),
+            textAlign = TextAlign.End,
+            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+            color = MaterialTheme.colorScheme.primary
+        )
     }
 }

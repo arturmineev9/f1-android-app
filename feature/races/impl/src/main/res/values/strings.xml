@@ -10,4 +10,15 @@
     <string name="pit_stop_required">Необходим пит-стоп</string>
     <string name="refresh">Обновить</string>
     <string name="retry">Повторить</string>
+    <string name="points">ОЧКИ</string>
+    <string name="driver">ПИЛОТ</string>
+    <string name="position">ПОЗ</string>
+    <string name="result_position">%1$d</string>
+    <string name="result_points">+%1$s</string>
+    <string name="results_tab">Результаты</string>
+    <string name="info_tab">Инфо</string>
+    <string name="circuit_name">Название трассы</string>
+    <string name="location">Месторасположение</string>
+    <string name="race_date">Дата гонки</string>
+    <string name="circuit_info">Информация о трассе</string>
 </resources>

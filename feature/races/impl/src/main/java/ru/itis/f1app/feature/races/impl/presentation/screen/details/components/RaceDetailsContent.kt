@@ -16,11 +16,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.itis.f1app.feature.races.api.domain.model.RaceDetails
 import ru.itis.f1app.feature.races.api.domain.model.RaceResult
+import ru.itis.f1app.feature.races.impl.R
+import ru.itis.f1app.core.ui.theme.Bronze
+import ru.itis.f1app.core.ui.theme.Gold
+import ru.itis.f1app.core.ui.theme.Silver
 
 @Composable
 fun RaceDetailsContent(
@@ -29,10 +34,12 @@ fun RaceDetailsContent(
     onDriverClick: (String) -> Unit
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
-    val tabs = listOf("Results" to Icons.Default.List, "Info" to Icons.Default.Info)
+    val tabs = listOf(
+        stringResource(R.string.results_tab) to Icons.Default.List,
+        stringResource(R.string.info_tab) to Icons.Default.Info
+    )
 
     Column(modifier = modifier.fillMaxSize()) {
-        // Кастомные табы
         TabRow(
             selectedTabIndex = selectedTab,
             containerColor = MaterialTheme.colorScheme.background,
@@ -61,6 +68,7 @@ fun RaceDetailsContent(
                 results = details.results,
                 onDriverClick = onDriverClick
             )
+
             1 -> RaceInfo(details)
         }
     }
@@ -83,20 +91,20 @@ fun RaceResultsList(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "POS",
+                    text = stringResource(R.string.position),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.secondary,
                     modifier = Modifier.width(32.dp),
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "DRIVER",
+                    text = stringResource(R.string.driver),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.secondary,
                     modifier = Modifier.weight(1f)
                 )
                 Text(
-                    text = "PTS",
+                    text = stringResource(R.string.points),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.secondary,
                     modifier = Modifier.width(40.dp),
@@ -139,9 +147,9 @@ fun ResultItem(
             contentAlignment = Alignment.Center
         ) {
             val positionColor = when (result.position) {
-                1 -> Color(0xFFFFD700)
-                2 -> Color(0xFFC0C0C0)
-                3 -> Color(0xFFCD7F32)
+                1 -> Gold
+                2 -> Silver
+                3 -> Bronze
                 else -> Color.Transparent
             }
 
@@ -155,7 +163,7 @@ fun ResultItem(
             }
 
             Text(
-                text = "${result.position}",
+                text = stringResource(R.string.result_position, result.position),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = if (result.position <= 3) FontWeight.Bold else FontWeight.Normal,
                 color = if (result.position <= 3) positionColor else MaterialTheme.colorScheme.onSurface
@@ -187,10 +195,12 @@ fun ResultItem(
 
         val isPoints = result.position <= 10
         Text(
-            text = "+${result.points}",
+            text = stringResource(R.string.result_points, result.points),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold,
-            color = if (isPoints) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+            color = if (isPoints) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                alpha = 0.5f
+            ),
             modifier = Modifier.width(40.dp),
             textAlign = TextAlign.End
         )

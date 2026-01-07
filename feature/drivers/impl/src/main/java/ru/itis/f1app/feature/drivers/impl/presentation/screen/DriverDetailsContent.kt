@@ -13,7 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -74,21 +76,19 @@ private fun DriverInfoCard(details: DriverDetails) {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 DriverDetailRow(
-                    icon = Icons.Default.Person,
+                    icon = painterResource(id = ru.itis.f1app.core.ui.R.drawable.ic_groups),
                     text = details.teamName ?: stringResource(R.string.driver_no_team)
                 )
-
-                //Flag
+                
                 Spacer(modifier = Modifier.height(8.dp))
                 DriverDetailRow(
-                    icon = Icons.Default.Person,
+                    icon = painterResource(id = ru.itis.f1app.core.ui.R.drawable.ic_flag),
                     text = stringResource(R.string.driver_details_nationality, details.nationality)
                 )
 
-                //Cake
                 Spacer(modifier = Modifier.height(8.dp))
                 DriverDetailRow(
-                    icon = Icons.Default.Person,
+                    icon = painterResource(id = ru.itis.f1app.core.ui.R.drawable.ic_cake),
                     text = stringResource(R.string.driver_details_birth_date, details.birthDate)
                 )
             }
@@ -116,10 +116,13 @@ private fun DriverInfoCard(details: DriverDetails) {
 }
 
 @Composable
-private fun DriverDetailRow(icon: ImageVector, text: String) {
+private fun DriverDetailRow(
+    icon: Painter,
+    text: String
+) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Icon(
-            imageVector = icon,
+            painter = icon,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.secondary,
             modifier = Modifier.size(18.dp)
