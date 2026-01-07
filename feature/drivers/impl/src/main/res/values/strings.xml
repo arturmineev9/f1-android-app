@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="driver_details_recent_races">Недавние гонки</string>
-    <string name="driver_details_number">Номер: %1$d</string>
+    <string name="driver_details_number">Номер: %1$s</string>
     <string name="driver_details_team">Команда: %1$s</string>
     <string name="driver_details_nationality">Гражданство: %1$s</string>
     <string name="driver_details_birth_date">Дата рождения: %1$s</string>
     <string name="driver_race_round_and_date">Этап %1$d • %2$s</string>
     <string name="driver_race_position_and_points">Позиция: %1$s  •  Очков: %2$s</string>
+
+    <string name="stat_points">ОЧКИ</string>
+    <string name="stat_races">ГОНКИ</string>
+    <string name="stat_podiums">ПОДИУМЫ</string>
+
+    <string name="driver_race_round_date">Этап %d • %s</string>
+    <string name="driver_race_points_plus">+%s</string>
+    <string name="driver_no_team">Нет команды</string>
 </resources>

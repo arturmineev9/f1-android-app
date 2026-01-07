@@ -15,7 +15,7 @@ object StandingsTab : Tab {
     override val options: TabOptions
         @Composable
         get() {
-            val title = "Standings"
+            val title = "Турнирная таблица"
             val icon = rememberVectorPainter(Icons.Filled.Person)
 
             return remember {
