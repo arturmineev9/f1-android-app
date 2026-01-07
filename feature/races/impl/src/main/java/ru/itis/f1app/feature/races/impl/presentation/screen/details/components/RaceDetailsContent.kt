@@ -101,7 +101,9 @@ fun RaceResultsList(
                     text = stringResource(R.string.driver),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.secondary,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 8.dp)
                 )
                 Text(
                     text = stringResource(R.string.points),

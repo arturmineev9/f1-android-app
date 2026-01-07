@@ -3,7 +3,6 @@ package ru.itis.f1app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import cafe.adriel.voyager.core.registry.ScreenRegistry
 import cafe.adriel.voyager.navigator.Navigator
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +20,6 @@ import ru.itis.f1app.presentation.RootScreen
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         ScreenRegistry {
             register<SharedScreens.Login> { LoginScreen() }
             register<SharedScreens.Register> { RegisterScreen() }

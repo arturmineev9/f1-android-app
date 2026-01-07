@@ -79,7 +79,7 @@ private fun DriverInfoCard(details: DriverDetails) {
                     icon = painterResource(id = ru.itis.f1app.core.ui.R.drawable.ic_groups),
                     text = details.teamName ?: stringResource(R.string.driver_no_team)
                 )
-                
+
                 Spacer(modifier = Modifier.height(8.dp))
                 DriverDetailRow(
                     icon = painterResource(id = ru.itis.f1app.core.ui.R.drawable.ic_flag),
