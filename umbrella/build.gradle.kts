@@ -36,12 +36,12 @@ android {
 }
 
 dependencies {
-    api(project(":feature:auth:api"))
-    api(project(":feature:auth:impl"))
-    api(project(":feature:races:impl"))
-    api(project(":feature:standings:impl"))
-    api(project(":feature:drivers:impl"))
-
     api(project(":core:common"))
     api(project(":core:navigation"))
+
+    api(project(":feature:auth:api"))
+    api(project(":feature:auth:impl"))
+    api(project(":feature:drivers:impl"))
+    api(project(":feature:races:impl"))
+    api(project(":feature:standings:impl"))
 }
