@@ -6,10 +6,9 @@ import ru.itis.f1app.feature.drivers.impl.data.network.dto.DriverDetailsResponse
 import javax.inject.Inject
 
 class DriverDetailsMapper @Inject constructor() {
-
-    fun DriverDetailsResponseDto.toDomain(): DriverDetails {
-        val driver = driver
-        val team = team
+    fun mapDriverDetails(response: DriverDetailsResponseDto): DriverDetails {
+        val driver = response.driver
+        val team = response.team
 
         return DriverDetails(
             id = driver.driverId,
@@ -20,13 +19,13 @@ class DriverDetailsMapper @Inject constructor() {
             teamName = team?.teamName,
             teamId = team?.teamId,
             wikiUrl = driver.url,
-            recentResults = results.map { resultDto ->
+            recentResults = response.results.map { resultDto ->
                 DriverRaceResult(
                     raceName = resultDto.race.name,
                     raceRound = resultDto.race.round,
                     date = resultDto.race.date,
                     position = resultDto.result?.finishingPosition?.toString() ?: "DNF",
-                    points = resultDto.result?.pointsObtained ?: 0.0  // ← pointsObtained
+                    points = resultDto.result?.pointsObtained ?: 0.0
                 )
             }
         )

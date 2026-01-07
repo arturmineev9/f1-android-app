@@ -21,7 +21,7 @@ class DriversRepositoryImpl @Inject constructor(
         try {
             val response = remoteDataSource.getDriverDetails(year, driverId)
 
-            val domain = with(mapper) { response.toDomain() }
+            val domain = mapper.mapDriverDetails(response)
             emit(domain)
         } catch (e: CancellationException) {
             throw e
