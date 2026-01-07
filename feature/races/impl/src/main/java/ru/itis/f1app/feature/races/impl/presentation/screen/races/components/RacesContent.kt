@@ -36,7 +36,8 @@ import androidx.compose.ui.unit.dp
 import ru.itis.f1app.feature.races.api.domain.model.Race
 import ru.itis.f1app.feature.races.impl.R
 import ru.itis.f1app.feature.races.impl.presentation.mvi.races.RacesState
-import ru.itis.f1app.feature.races.impl.presentation.screen.races.RacesErrorScreen
+
+private const val ANIMATION_DURATION = 300
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -82,50 +83,8 @@ internal fun RacesContent(
                 .padding(padding)
                 .fillMaxSize()
         ) {
-            AnimatedContent(
-                targetState = state,
-                transitionSpec = {
-                    fadeIn(animationSpec = tween(300)) togetherWith fadeOut(
-                        animationSpec = tween(
-                            300
-                        )
-                    )
-                },
-                label = "RacesContentTransition"
-            ) { targetState ->
-                when {
-                    targetState.error != null && targetState.races.isEmpty() -> {
-                        RacesErrorScreen(
-                            error = targetState.error,
-                            onRetry = onRefreshClick
-                        )
-                    }
+            RacesStateContent(state, onRefreshClick, onRaceClick)
 
-                    targetState.isLoading && targetState.races.isEmpty() -> {
-                        RacesLoadingSkeleton()
-                    }
-
-                    targetState.races.isNotEmpty() -> {
-                        RacesList(
-                            races = targetState.races,
-                            onRaceClick = onRaceClick
-                        )
-                    }
-
-                    else -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = stringResource(R.string.error_no_data),
-                                style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.secondary
-                            )
-                        }
-                    }
-                }
-            }
             if (state.isLoading && state.races.isNotEmpty()) {
                 LinearProgressIndicator(
                     modifier = Modifier
@@ -133,6 +92,52 @@ internal fun RacesContent(
                         .align(Alignment.TopCenter),
                     color = MaterialTheme.colorScheme.error
                 )
+            }
+        }
+    }
+}
+
+@Composable
+private fun RacesStateContent(
+    state: RacesState,
+    onRefreshClick: () -> Unit,
+    onRaceClick: (String) -> Unit
+) {
+    AnimatedContent(
+        targetState = state,
+        transitionSpec = {
+            fadeIn(animationSpec = tween(ANIMATION_DURATION)) togetherWith fadeOut(
+                animationSpec = tween(
+                    ANIMATION_DURATION
+                )
+            )
+        },
+        label = "RacesContentTransition"
+    ) { targetState ->
+        when {
+            targetState.error != null && targetState.races.isEmpty() -> {
+                RacesErrorScreen(error = targetState.error, onRetry = onRefreshClick)
+            }
+
+            targetState.isLoading && targetState.races.isEmpty() -> {
+                RacesLoadingSkeleton()
+            }
+
+            targetState.races.isNotEmpty() -> {
+                RacesList(races = targetState.races, onRaceClick = onRaceClick)
+            }
+
+            else -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = stringResource(R.string.error_no_data),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
             }
         }
     }

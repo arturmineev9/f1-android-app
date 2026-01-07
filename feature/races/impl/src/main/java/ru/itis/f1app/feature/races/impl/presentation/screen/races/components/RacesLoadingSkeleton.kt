@@ -14,19 +14,22 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+private const val SKELETON_ALPHA = 0.2f
+private const val REPEAT_TIMES = 5
+
 @Composable
 fun RacesLoadingSkeleton() {
     Column(
         modifier = Modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        repeat(5) {
+        repeat(REPEAT_TIMES) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(120.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(Color.LightGray.copy(alpha = 0.2f))
+                    .background(Color.LightGray.copy(alpha = SKELETON_ALPHA))
             )
         }
     }

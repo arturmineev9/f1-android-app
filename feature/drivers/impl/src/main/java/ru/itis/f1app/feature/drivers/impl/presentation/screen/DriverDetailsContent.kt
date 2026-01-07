@@ -1,20 +1,35 @@
 package ru.itis.f1app.feature.drivers.impl.presentation.screen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -27,7 +42,12 @@ import ru.itis.f1app.core.ui.theme.Silver
 import ru.itis.f1app.feature.drivers.api.domain.model.DriverDetails
 import ru.itis.f1app.feature.drivers.api.domain.model.DriverRaceResult
 import ru.itis.f1app.feature.drivers.impl.R
+import java.util.Locale
 
+private const val POS_1 = 1
+private const val POS_2 = 2
+private const val POS_3 = 3
+private const val POS_DEFAULT = 99
 @Composable
 fun DriverDetailsContent(
     modifier: Modifier = Modifier,
@@ -45,7 +65,7 @@ fun DriverDetailsContent(
             Text(
                 text = stringResource(R.string.driver_details_recent_races),
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(vertical = 8.dp)
+                modifier = Modifier.padding(vertical = SpacerSmall)
             )
         }
 
@@ -58,12 +78,12 @@ fun DriverDetailsContent(
 @Composable
 private fun DriverInfoCard(details: DriverDetails) {
     Card(
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(CardCornerRadius),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
-            modifier = Modifier.padding(24.dp),
+            modifier = Modifier.padding(CardPadding),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -73,20 +93,20 @@ private fun DriverInfoCard(details: DriverDetails) {
                     style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
                     lineHeight = 32.sp
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(SpacerMedium))
 
                 DriverDetailRow(
                     icon = painterResource(id = ru.itis.f1app.core.ui.R.drawable.ic_groups),
                     text = details.teamName ?: stringResource(R.string.driver_no_team)
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(SpacerSmall))
                 DriverDetailRow(
                     icon = painterResource(id = ru.itis.f1app.core.ui.R.drawable.ic_flag),
                     text = stringResource(R.string.driver_details_nationality, details.nationality)
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(SpacerSmall))
                 DriverDetailRow(
                     icon = painterResource(id = ru.itis.f1app.core.ui.R.drawable.ic_cake),
                     text = stringResource(R.string.driver_details_birth_date, details.birthDate)
@@ -94,24 +114,29 @@ private fun DriverInfoCard(details: DriverDetails) {
             }
 
             details.number?.let { number ->
-                Box(
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primary),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = number,
-                        style = MaterialTheme.typography.displayMedium.copy(
-                            fontWeight = FontWeight.Black,
-                            fontStyle = FontStyle.Italic
-                        ),
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                }
+                DriverNumberBadge(number)
             }
         }
+    }
+}
+
+@Composable
+private fun DriverNumberBadge(number: String) {
+    Box(
+        modifier = Modifier
+            .size(NumberBadgeSize)
+            .clip(CircleShape)
+            .background(MaterialTheme.colorScheme.primary),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = number,
+            style = MaterialTheme.typography.displayMedium.copy(
+                fontWeight = FontWeight.Black,
+                fontStyle = FontStyle.Italic
+            ),
+            color = MaterialTheme.colorScheme.onPrimary
+        )
     }
 }
 
@@ -125,9 +150,9 @@ private fun DriverDetailRow(
             painter = icon,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.secondary,
-            modifier = Modifier.size(18.dp)
+            modifier = Modifier.size(IconSizeSmall)
         )
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(SpacerSmall))
         Text(
             text = text,
             style = MaterialTheme.typography.bodyMedium,
@@ -141,7 +166,7 @@ private fun DriverStatsRow(details: DriverDetails) {
     val totalPoints = details.recentResults.sumOf { it.points }
     val racesCount = details.recentResults.size
     val podiums = details.recentResults.count {
-        it.position.toIntOrNull()?.let { pos -> pos <= 3 } == true
+        it.position.toIntOrNull()?.let { pos -> pos <= POS_3 } == true
     }
 
     Row(
@@ -150,7 +175,7 @@ private fun DriverStatsRow(details: DriverDetails) {
     ) {
         StatItem(
             label = stringResource(R.string.stat_points),
-            value = String.format("%.0f", totalPoints)
+            value = String.format(Locale.US, "%.0f", totalPoints)
         )
         VerticalDivider(modifier = Modifier.height(40.dp))
         StatItem(
@@ -182,37 +207,18 @@ private fun StatItem(label: String, value: String) {
 
 @Composable
 private fun DriverRaceResultItem(result: DriverRaceResult) {
-    val posInt = result.position.toIntOrNull() ?: 99
-    val posColor = when (posInt) {
-        1 -> Gold
-        2 -> Silver
-        3 -> Bronze
-        else -> MaterialTheme.colorScheme.surfaceVariant
-    }
-    val isPodium = posInt <= 3
+    val posInt = result.position.toIntOrNull() ?: POS_DEFAULT
+    val isPodium = posInt <= POS_3
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
+            .padding(vertical = SpacerSmall)
             .height(IntrinsicSize.Min)
     ) {
-        Box(
-            modifier = Modifier
-                .width(56.dp)
-                .fillMaxHeight()
-                .clip(RoundedCornerShape(8.dp))
-                .background(if (isPodium) posColor.copy(alpha = 0.2f) else MaterialTheme.colorScheme.surfaceVariant),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = result.position,
-                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                color = if (isPodium) posColor else MaterialTheme.colorScheme.onSurface
-            )
-        }
+        ResultPositionBadge(result.position, isPodium, posInt)
 
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(SpacerMedium))
 
         Column(
             modifier = Modifier.weight(1f),
@@ -231,24 +237,63 @@ private fun DriverRaceResultItem(result: DriverRaceResult) {
             )
         }
 
-        Column(
-            horizontalAlignment = Alignment.End,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxHeight()
-        ) {
-            Box(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f), RoundedCornerShape(4.dp))
-                    .padding(horizontal = 8.dp, vertical = 4.dp)
-            ) {
-                val pointsFormatted = String.format("%.0f", result.points)
+        ResultPointsBadge(result.points)
+    }
+}
 
-                Text(
-                    text = stringResource(R.string.driver_race_points_plus, pointsFormatted),
-                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
+@Composable
+private fun ResultPositionBadge(position: String, isPodium: Boolean, posInt: Int) {
+    val posColor = when (posInt) {
+        POS_1 -> Gold
+        POS_2 -> Silver
+        POS_3 -> Bronze
+        else -> MaterialTheme.colorScheme.surfaceVariant
+    }
+
+    Box(
+        modifier = Modifier
+            .width(PositionBadgeWidth)
+            .fillMaxHeight()
+            .clip(RoundedCornerShape(PositionBadgeRadius))
+            .background(if (isPodium) posColor.copy(alpha = 0.2f) else MaterialTheme.colorScheme.surfaceVariant),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = position,
+            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+            color = if (isPodium) posColor else MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
+
+@Composable
+private fun ResultPointsBadge(points: Double) {
+    Column(
+        horizontalAlignment = Alignment.End,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxHeight()
+    ) {
+        Box(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f), RoundedCornerShape(4.dp))
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+        ) {
+            val pointsFormatted = String.format(Locale.US, "%.0f", points)
+
+            Text(
+                text = stringResource(R.string.driver_race_points_plus, pointsFormatted),
+                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }
+
+private val CardCornerRadius = 16.dp
+private val CardPadding = 24.dp
+private val SpacerSmall = 8.dp
+private val SpacerMedium = 16.dp
+private val NumberBadgeSize = 80.dp
+private val IconSizeSmall = 18.dp
+private val PositionBadgeWidth = 56.dp
+private val PositionBadgeRadius = 8.dp
