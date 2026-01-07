@@ -1,5 +1,6 @@
 package ru.itis.f1app.feature.drivers.impl.presentation.screen
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,13 +9,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import ru.itis.f1app.feature.drivers.impl.R
 import ru.itis.f1app.feature.drivers.api.domain.model.DriverDetails
 import ru.itis.f1app.feature.drivers.api.domain.model.DriverRaceResult
 
@@ -32,17 +35,17 @@ fun DriverDetailsContent(
             DriverHeader(state)
             Spacer(modifier = Modifier.height(24.dp))
             Text(
-                text = "Recent races",
+                text = stringResource(R.string.driver_details_recent_races),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Divider()
+            HorizontalDivider()
         }
 
         items(state.recentResults) { result ->
             RaceResultItem(result)
-            Divider()
+            HorizontalDivider()
         }
     }
 }
@@ -56,23 +59,25 @@ private fun DriverHeader(details: DriverDetails) {
             fontWeight = FontWeight.Bold
         )
         if (details.number != null) {
-            Text(
-                text = "Number: ${details.number}",
-                style = MaterialTheme.typography.bodyMedium
-            )
+            details.number?.let { number ->
+                Text(
+                    text = stringResource(R.string.driver_details_number, number),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
         details.teamName?.let {
             Text(
-                text = "Team: $it",
+                text = stringResource(R.string.driver_details_team, it),
                 style = MaterialTheme.typography.bodyMedium
             )
         }
         Text(
-            text = "Nationality: ${details.nationality}",
+            text = stringResource(R.string.driver_details_nationality, details.nationality),
             style = MaterialTheme.typography.bodyMedium
         )
         Text(
-            text = "Birth date: ${details.birthDate}",
+            text = stringResource(R.string.driver_details_birth_date, details.birthDate),
             style = MaterialTheme.typography.bodyMedium
         )
     }
@@ -93,14 +98,14 @@ private fun RaceResultItem(result: DriverRaceResult) {
         Spacer(modifier = Modifier.height(4.dp))
         Row {
             Text(
-                text = "Round ${result.raceRound} • ${result.date}",
+                text = stringResource(R.string.driver_race_round_and_date, result.raceRound, result.date),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "Position: ${result.position}  •  Points: ${result.points}",
+            text = stringResource(R.string.driver_race_position_and_points, result.position, result.points),
             style = MaterialTheme.typography.bodyMedium
         )
     }

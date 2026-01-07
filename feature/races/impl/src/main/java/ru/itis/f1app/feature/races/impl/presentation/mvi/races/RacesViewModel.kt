@@ -1,13 +1,13 @@
 package ru.itis.f1app.feature.races.impl.presentation.mvi.races
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.viewmodel.container
+import ru.itis.f1app.core.common.firebase.analytics.AnalyticsTracker
+import ru.itis.f1app.core.common.mvi.BaseViewModel
 import ru.itis.f1app.feature.races.api.domain.exception.RacesExceptions
 import ru.itis.f1app.feature.races.api.domain.usecase.GetRacesUseCase
 import ru.itis.f1app.feature.races.api.domain.usecase.RefreshRacesUseCase
@@ -17,14 +17,16 @@ import javax.inject.Inject
 @HiltViewModel
 class RacesViewModel @Inject constructor(
     private val getRacesUseCase: GetRacesUseCase,
-    private val refreshRacesUseCase: RefreshRacesUseCase
-) : ContainerHost<RacesState, RacesSideEffect>, ViewModel() {
+    private val refreshRacesUseCase: RefreshRacesUseCase,
+    private val analyticsTracker: AnalyticsTracker,
+) : BaseViewModel<RacesState, RacesSideEffect>() {
 
     override val container = container<RacesState, RacesSideEffect>(RacesState())
 
     private var racesSubscription: Job? = null
 
     init {
+        analyticsTracker.trackScreenView("Races_Screen")
         val currentYear = Year.now().value - 1
         intent {
             reduce { state.copy(selectedYear = currentYear) }

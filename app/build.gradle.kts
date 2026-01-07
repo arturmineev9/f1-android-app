@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.hilt.plugin)
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
-    alias(libs.plugins.firebase.performace)
+    alias(libs.plugins.firebase.performance)
     alias(libs.plugins.compose.compiler)
 }
 
@@ -43,11 +43,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -55,30 +55,17 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:navigation"))
-    implementation(project(":feature:auth:api"))
-    implementation(project(":feature:auth:impl"))
-    implementation(project(":feature:races:api"))
-    implementation(project(":feature:races:impl"))
-    implementation(project(":feature:standings:api"))
-    implementation(project(":feature:standings:impl"))
-    implementation(project(":feature:drivers:api"))
-    implementation(project(":feature:drivers:impl"))
-    //implementation(libs.androidx.compose.material.icons.extended)
+    implementation(project(":umbrella"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)

@@ -4,6 +4,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.ViewModel
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.viewmodel.container
+import ru.itis.f1app.core.common.firebase.analytics.AnalyticsTracker
+import ru.itis.f1app.core.common.mvi.BaseViewModel
 import ru.itis.f1app.core.common.utils.Result
 import ru.itis.f1app.feature.auth.api.exception.AuthExceptions
 import ru.itis.f1app.feature.auth.api.usecase.LoginUseCase
@@ -13,10 +15,15 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val registerUseCase: RegisterUseCase
-) : ContainerHost<AuthState, AuthSideEffect>, ViewModel() {
+    private val registerUseCase: RegisterUseCase,
+    private val analyticsTracker: AnalyticsTracker
+) : BaseViewModel<AuthState, AuthSideEffect>() {
 
     override val container = container<AuthState, AuthSideEffect>(AuthState())
+
+    init {
+        analyticsTracker.trackScreenView("Auth_Screen")
+    }
 
     fun onLoginClicked(user: String, pass: String) = intent {
         reduce { state.copy(isLoading = true, error = null) }

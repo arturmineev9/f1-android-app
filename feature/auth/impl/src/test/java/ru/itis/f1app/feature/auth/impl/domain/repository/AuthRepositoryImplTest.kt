@@ -13,6 +13,7 @@ import ru.itis.f1app.core.common.utils.SecurityUtils
 import ru.itis.f1app.core.database.dao.UserDao
 import ru.itis.f1app.core.database.entity.UserEntity
 import ru.itis.f1app.feature.auth.api.exception.AuthExceptions
+import ru.itis.f1app.feature.auth.impl.data.repository.AuthRepositoryImpl
 
 class AuthRepositoryImplTest {
 

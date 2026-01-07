@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.viewmodel.container
+import ru.itis.f1app.core.common.firebase.analytics.AnalyticsTracker
+import ru.itis.f1app.core.common.mvi.BaseViewModel
 import ru.itis.f1app.feature.drivers.api.domain.usecase.GetDriverDetailsUseCase
 import ru.itis.f1app.feature.drivers.impl.presentation.mvi.DriverDetailsSideEffect
 import ru.itis.f1app.feature.drivers.impl.presentation.mvi.DriverDetailsState
@@ -16,10 +18,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DriverDetailsViewModel @Inject constructor(
-    private val getDriverDetailsUseCase: GetDriverDetailsUseCase
-) : ContainerHost<DriverDetailsState, DriverDetailsSideEffect>, ViewModel() {
+    private val getDriverDetailsUseCase: GetDriverDetailsUseCase,
+    private val analyticsTracker: AnalyticsTracker
+) : BaseViewModel<DriverDetailsState, DriverDetailsSideEffect>() {
 
     override val container = container<DriverDetailsState, DriverDetailsSideEffect>(DriverDetailsState())
+
+    init {
+        analyticsTracker.trackScreenView("Driver_Details_Screen")
+    }
 
     fun loadDriverDetails(
         driverId: String,

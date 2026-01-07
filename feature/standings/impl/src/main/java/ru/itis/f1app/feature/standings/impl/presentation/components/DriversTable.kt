@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +40,7 @@ fun DriversTable(
                 Text("Team", modifier = Modifier.weight(1f), fontWeight = FontWeight.Bold)
                 Text("Pts", modifier = Modifier.width(50.dp), textAlign = TextAlign.End, fontWeight = FontWeight.Bold)
             }
-            Divider()
+            HorizontalDivider()
         }
 
         items(drivers) { driver ->
@@ -75,7 +75,7 @@ fun DriversTable(
                     fontWeight = FontWeight.Bold
                 )
             }
-            Divider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
         }
     }
 }

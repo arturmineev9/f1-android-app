@@ -4,15 +4,22 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.viewmodel.container
+import ru.itis.f1app.core.common.firebase.analytics.AnalyticsTracker
+import ru.itis.f1app.core.common.mvi.BaseViewModel
 import ru.itis.f1app.feature.races.api.domain.usecase.GetRaceDetailsUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class RaceDetailsViewModel @Inject constructor(
-    private val getRaceDetailsUseCase: GetRaceDetailsUseCase
-) : ViewModel(), ContainerHost<RaceDetailsState, RaceDetailsSideEffect> {
+    private val getRaceDetailsUseCase: GetRaceDetailsUseCase,
+    private val analyticsTracker: AnalyticsTracker
+) : BaseViewModel<RaceDetailsState, RaceDetailsSideEffect>() {
 
     override val container = container<RaceDetailsState, RaceDetailsSideEffect>(RaceDetailsState())
+
+    init {
+        analyticsTracker.trackScreenView("Race_Details_Screen")
+    }
 
     fun loadRaceDetails(year: Int, round: Int) = intent {
         if (state.details != null) return@intent
