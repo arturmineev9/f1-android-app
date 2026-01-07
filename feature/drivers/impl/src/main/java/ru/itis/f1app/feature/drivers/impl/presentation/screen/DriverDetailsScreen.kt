@@ -1,27 +1,13 @@
 package ru.itis.f1app.feature.drivers.impl.presentation.screen
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.hilt.getViewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -40,8 +26,10 @@ class DriverDetailsScreen(
     override fun Content() {
         val viewModel = getViewModel<DriverDetailsViewModel>()
         val state by viewModel.container.stateFlow.collectAsState()
+
         val navigator = LocalNavigator.currentOrThrow
         val snackBarHostState = remember { SnackbarHostState() }
+        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
         LaunchedEffect(driverId, year) {
             viewModel.loadDriverDetails(driverId, year)
@@ -59,42 +47,45 @@ class DriverDetailsScreen(
         }
 
         Scaffold(
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
-                TopAppBar(
+                LargeTopAppBar(
                     title = {
                         Text(
-                            text = state.driverDetails?.fullName ?: "Driver",
-                            maxLines = 1
+                            text = state.driverDetails?.fullName ?: "Driver Profile",
+                            style = MaterialTheme.typography.headlineMedium
                         )
                     },
                     navigationIcon = {
                         IconButton(onClick = { viewModel.onBackClicked() }) {
                             Icon(
-                                imageVector = Icons.Filled.ArrowBack,
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Back"
                             )
                         }
-                    }
+                    },
+                    scrollBehavior = scrollBehavior,
+                    colors = TopAppBarDefaults.largeTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        scrolledContainerColor = MaterialTheme.colorScheme.surface
+                    )
                 )
             },
             snackbarHost = { SnackbarHost(snackBarHostState) }
         ) { paddingValues ->
-            if (state.isLoading && state.driverDetails == null) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            } else {
-                state.driverDetails?.let { details ->
-                    DriverDetailsContent(
-                        modifier = Modifier.padding(paddingValues),
-                        state = details
-                    )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
+                if (state.isLoading && state.driverDetails == null) {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                } else {
+                    state.driverDetails?.let { details ->
+                        DriverDetailsContent(
+                            state = details
+                        )
+                    }
                 }
             }
         }

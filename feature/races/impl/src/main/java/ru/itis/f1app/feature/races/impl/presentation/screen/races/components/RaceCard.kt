@@ -55,7 +55,7 @@ fun RaceCard(
                 ) {
                     SuggestionChip(
                         onClick = { },
-                        label = { Text("ROUND ${race.round}") },
+                        label = { Text("ЭТАП ${race.round}") },
                         colors = SuggestionChipDefaults.suggestionChipColors(
                             containerColor = MaterialTheme.colorScheme.surfaceVariant,
                             labelColor = MaterialTheme.colorScheme.onSurfaceVariant

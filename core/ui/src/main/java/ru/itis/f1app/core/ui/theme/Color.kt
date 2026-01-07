@@ -15,3 +15,10 @@ val GrayDark = Color(0xFF606060)
 
 val LightBackground = Color(0xFFF7F7F7)
 val LightSurface = Color(0xFFFFFFFF)
+
+val Gold = Color(0xFFFFD700)
+val Silver = Color(0xFFC0C0C0)
+val Bronze = Color(0xFFCD7F32)
+
+val SuccessGreen = Color(0xFF4CAF50)
+val ErrorRed = Color(0xFFE53935)
